@@ -21,8 +21,8 @@ import java.util.logging.Logger;
  *
  * @version 0.6
  * @author Martin Andersson
- * @see DekaProg.ExportImport.ExportImportHandler
- * @see DekaProg.ExportImport.WikiHandler
+ * @see ExportImport.ExportImportHandler
+ * @see ExportImport.WikiHandler
  */
 public class FileHandler extends ExportImportHandler{
     private File currentFile;

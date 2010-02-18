@@ -13,8 +13,8 @@ import net.sourceforge.jwbf.bots.MediaWikiBot;
  *
  * @version 0.5A
  * @author Martin Andersson
- * @see DekaProg.ExportImport.ExportImportHandler
- * @see DekaProg.ExportImport.FileHandler
+ * @see ExportImport.ExportImportHandler
+ * @see ExportImport.FileHandler
 */
 public class WikiHandler extends ExportImportHandler{
     private MediaWikiBot wikiConnection;    //Kopplingen till mediaWikin
@@ -37,11 +37,23 @@ public class WikiHandler extends ExportImportHandler{
         }
     }
 
+    /**
+     * Login as a user with no write privilieges.
+     * NOTE: The user DekaProg has write privilieges at the moment to simplify testing of
+     * writing to wiki-part.
+     * @return Returns true if login was successful, false otherwise.
+     */
     public boolean connect() {
         return connect("DekaProg", "tester");
     }
 
-    private boolean connect(String username, String password) {
+    /**
+     * Login as a user with username and password.
+     * @param username The users username
+     * @param password The users password
+     * @return Returns true if login was successful, false otherwise.
+     */
+    public boolean connect(String username, String password) {
         try {
             wikiConnection = new MediaWikiBot(new URL(location));
             wikiConnection.login(username, password);

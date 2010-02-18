@@ -2,20 +2,20 @@ package ExportImport;
 
 /**
  * This is the abstract handler that is equal for all databases.
- * Every handler can read and write character and settings.
- *
- * One example of the use:
- *
- * ExportImportHandler database = new WikiHandler("http://wiki.raspare.se");
- *
- * or
- *
- * ExportImportHandler database = new FileHandler("file:///C:/DekaProg/");
- *
+ * Every handler can read and write character and settings.<br>
+ * <br>
+ * One example of the use:<br>
+ * <br>
+ * ExportImportHandler database = new WikiHandler("http://wiki.raspare.se");<br>
+ *<br>
+ * or<br>
+ *<br>
+ * ExportImportHandler database = new FileHandler("file:///C:/DekaProg/");<br>
+ *<br>
  * @author Martin Andersson
  * @version 1.0
- * @see DekaProg.ExportImport.WikiHandler
- * @see DekaProg.ExportImport.FileHandler
+ * @see ExportImport.WikiHandler
+ * @see ExportImport.FileHandler
  */
 public abstract class ExportImportHandler {
 
@@ -34,7 +34,7 @@ public abstract class ExportImportHandler {
 
     /**
      * This function retrieves a character from the database.
-     * @author Martin Andersson
+     *
      * @param characterName Name of the character to be read.
      * @return Returns the character read.
      */
@@ -43,7 +43,6 @@ public abstract class ExportImportHandler {
     /**
      * This function retrieves a campaign setting from the database.
      *
-     * @author Martin Andersson
      * @param campaignName Name of the campaign to be read.
      * @return Returns the campaign settings read.
      */
@@ -51,8 +50,7 @@ public abstract class ExportImportHandler {
 
     /**
      * This function saves a character to the database.
-     *
-     * @author Martin Andersson
+     * 
      * @param characterName Name of the character to save.
      * @param character The data to be saved.
      * @return Returns true if it was successfully saved.
@@ -62,7 +60,6 @@ public abstract class ExportImportHandler {
     /**
      * This function saves a campaign setting to the database.
      *
-     * @author Martin Andersson
      * @param campaignName Name of the campaign to save.
      * @param campaign The data to be saved.
      * @return Returns true if it was successfully saved.
