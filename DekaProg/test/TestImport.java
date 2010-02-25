@@ -13,6 +13,8 @@ public class TestImport {
         String roll = koppling.readCharacter("Levan Darish");
         ExportImportHandler koppling2 = new FileHandler("file:///C:/Users/Martin/AppData/Roaming/DekaProg/");
         koppling2.writeCharacter("Levan Darish", roll);
+        String roll3 = roll + "\n LALALALALA";
+        koppling.writeCharacter("Levan Darish", roll3);
         String roll2 = koppling2.readCharacter("Levan Darish");
         //System.out.println(roll2.trim());
         //System.out.println(roll2);
