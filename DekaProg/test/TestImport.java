@@ -11,7 +11,7 @@ public class TestImport {
     public static void main(String[] args) {
         ExportImportHandler koppling = new WikiHandler("http://wiki.raspare.se/");
         String roll = koppling.readCharacter("Levan Darish");
-        ExportImportHandler koppling2 = new FileHandler("file:///C:/Users/Martin/AppData/Roaming/DekaProg/");
+        ExportImportHandler koppling2 = new FileHandler("file:///C:/DekaProg/");
         koppling2.writeCharacter("Levan Darish", roll);
         String roll3 = roll + "\n LALALALALA";
         koppling.writeCharacter("Levan Darish", roll3);
