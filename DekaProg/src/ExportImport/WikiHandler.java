@@ -4,9 +4,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sourceforge.jwbf.actions.mediawiki.editing.PostModifyContent;
 import net.sourceforge.jwbf.actions.util.ActionException;
 import net.sourceforge.jwbf.actions.util.ProcessException;
 import net.sourceforge.jwbf.bots.MediaWikiBot;
+import net.sourceforge.jwbf.contentRep.Article;
+
+
 
 /**
  * An ExportImportHandler that sends the data to a mediaWiki using jwbf bot program.
@@ -20,6 +24,7 @@ public class WikiHandler extends ExportImportHandler{
     private MediaWikiBot wikiConnection;    //Kopplingen till mediaWikin
     private String username;
     private String password;
+    private Article curArticle;
 
     public WikiHandler(String location){
         super(location);
@@ -55,12 +60,12 @@ public class WikiHandler extends ExportImportHandler{
      */
     public boolean connect(String username, String password) {
         try {
-            wikiConnection = new MediaWikiBot(new URL(location));
+            wikiConnection = new MediaWikiBot("http://wiki.raspare.se/");//new URL(location));
             wikiConnection.login(username, password);
             return true;
         } catch (ActionException ex) {
             Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
+        } catch (MalformedURLException ex) { 
             Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -69,7 +74,9 @@ public class WikiHandler extends ExportImportHandler{
     @Override
     public String readCharacter(String characterName) {
         try {
-            return wikiConnection.readData(characterName).getText().toString();
+            curArticle = wikiConnection.readContent(characterName);
+
+            return curArticle.getText().toString();
         } catch (ActionException ex) {
             Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ProcessException ex) {
@@ -80,13 +87,25 @@ public class WikiHandler extends ExportImportHandler{
 
     @Override
     public boolean writeCharacter(String characterName, String character) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            curArticle.setText(character);
+            //wikiConnection.performAction(new PostModifyContent(wikiConnection, curArticle));
+            wikiConnection.writeContent(curArticle);
+            return true;
+        } catch (ActionException ex) {
+            Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProcessException ex) {
+            Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override
     public String readSettings(String campaignName) {
         try {
-            return wikiConnection.readData(campaignName).getText().toString();
+            curArticle = wikiConnection.readContent(campaignName);
+
+            return curArticle.getText().toString();
         } catch (ActionException ex) {
             Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ProcessException ex) {
