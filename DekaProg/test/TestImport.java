@@ -1,7 +1,9 @@
 
+import ExportImport.ExportHandler;
 import ExportImport.WikiHandler;
 import ExportImport.ExportImportHandler;
 import ExportImport.FileHandler;
+import ExportImport.PDFHandler;
 
 /**
  *
@@ -9,28 +11,8 @@ import ExportImport.FileHandler;
  */
 public class TestImport {
     public static void main(String[] args) {
-        ExportImportHandler koppling = new WikiHandler("http://wiki.raspare.se/");
-        String roll = koppling.readCharacter("Levan Darish");
-        ExportImportHandler koppling2 = new FileHandler("file:///C:/DekaProg/");
-        koppling2.writeCharacter("Levan Darish", roll);
-        String roll3 = roll + "\n LALALALALA";
-        koppling.writeCharacter("Levan Darish", roll3);
-        String roll2 = koppling2.readCharacter("Levan Darish");
-        //System.out.println(roll2.trim());
-        //System.out.println(roll2);
-
-        if(!roll2.isEmpty() && roll.equals(roll2) ){
-            System.out.println("Både fil och wiki överensstämmer");
-        }else if(roll2.isEmpty()){
-            System.out.println("roll2 är tom");
-            if(roll.isEmpty()){
-                System.out.println("roll är tom");
-            }
-        }else if(roll.isEmpty()){
-            System.out.println("roll är tom");
-        }else{
-            System.out.println("Fil och Wiki skiljer sig");
-        }
+        ExportHandler psTest = new PDFHandler("file:///C:/DekaProg/");
+        psTest.writeCharacter("test", "test");
     }
 }
 
