@@ -17,9 +17,8 @@ package ExportImport;
  * @see ExportImport.WikiHandler
  * @see ExportImport.FileHandler
  */
-public abstract class ExportImportHandler {
+public abstract class ExportImportHandler extends ExportHandler{
 
-    String location;
 
     public ExportImportHandler(){
 
@@ -47,22 +46,4 @@ public abstract class ExportImportHandler {
      * @return Returns the campaign settings read.
      */
     abstract public String readSettings(String campaignName);
-
-    /**
-     * This function saves a character to the database.
-     * 
-     * @param characterName Name of the character to save.
-     * @param character The data to be saved.
-     * @return Returns true if it was successfully saved.
-     */
-    abstract public boolean writeCharacter(String characterName, String character);
-
-    /**
-     * This function saves a campaign setting to the database.
-     *
-     * @param campaignName Name of the campaign to save.
-     * @param campaign The data to be saved.
-     * @return Returns true if it was successfully saved.
-     */
-    abstract public boolean writeSettings(String campaignName, String campaign);
 }
