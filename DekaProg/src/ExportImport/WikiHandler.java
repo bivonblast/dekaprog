@@ -118,4 +118,11 @@ public class WikiHandler extends ExportImportHandler{
     public boolean writeSettings(String campaignName, String campaign) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public String[] parseWikiCategories(Article article){
+        //for(int i = 0 ; i < character.antalfärdigheter() ; i++)
+        //gå igenom de sata färdigheterna hos karaktären och kolla om det finns i WikiArtikeln
+        //
+        return null;
+    }
 }

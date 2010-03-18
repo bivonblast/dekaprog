@@ -1,0 +1,6 @@
+
+%initVariables in DekaProg
+
+/GoudyOldStyleT findfont 
+10 scalefont
+setfont

@@ -1,0 +1,46 @@
+% START OF PSBASE
+
+/GoudyOldStyle findfont
+dup length dict begin
+{ 1 index /FID ne
+{def}
+{pop pop}
+ifelse
+} forall
+/Encoding ISOLatin1Encoding def
+currentdict
+end
+/GoudyOldStyle-ISOLatin1 exch definefont pop
+
+
+
+% printAbility prints one ability
+% param AbilityValue
+% param AbilityName
+% return -
+/printAbility
+{
+	abilityX startY moveto
+	show
+	valueX startY moveto
+	show
+	/startY startY spaceY sub def
+} bind def
+
+% printOnlyAbility prints one ability and no value
+% param ABilityName
+% return -
+/printOnlyAbility
+{
+	abilityX startY moveto
+	show
+	/startY startY spacey sub def
+} bind def
+
+
+/GoudyOldStyle-ISOLatin1 findfont
+10 scalefont
+setfont
+
+
+% END OF PSBASE

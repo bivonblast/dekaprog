@@ -11,8 +11,9 @@ import ExportImport.PDFHandler;
  */
 public class TestImport {
     public static void main(String[] args) {
-        ExportHandler psTest = new PDFHandler("file:///C:/DekaProg/");
-        psTest.writeCharacter("test", "test");
+        ExportHandler pdfTest = new PDFHandler("file:///C:/DekaProg/",
+                45, 532, 11.3f, 87, 114f);
+        pdfTest.writeCharacter("test", "test");
     }
 }
 
