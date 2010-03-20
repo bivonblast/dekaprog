@@ -6,7 +6,7 @@ package export;
  * An example of this is the PostscriptHandler @link ExportImport.PSHandler
  * @author Martin Andersson
  * @version 1.0
- * @see ExportImport.ExportImportHandler
+ * @see export.ExportImportHandler
  */
 abstract public class ExportHandler {
     protected String location;

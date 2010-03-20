@@ -14,8 +14,8 @@ package export;
  *<br>
  * @author Martin Andersson
  * @version 1.0
- * @see ExportImport.WikiHandler
- * @see ExportImport.FileHandler
+ * @see export.WikiHandler
+ * @see export.FileHandler
  */
 public abstract class ExportImportHandler extends ExportHandler{
 
