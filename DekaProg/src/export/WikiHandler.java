@@ -19,8 +19,8 @@ import net.sourceforge.jwbf.contentRep.Userinfo;
  *
  * @version 0.5A
  * @author Martin Andersson
- * @see ExportImport.ExportImportHandler
- * @see ExportImport.FileHandler
+ * @see export.ExportImportHandler
+ * @see export.FileHandler
 */
 public class WikiHandler extends ExportImportHandler{
     private MediaWikiBot wikiConnection;    //Kopplingen till mediaWikin
