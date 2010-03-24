@@ -8,7 +8,7 @@ package character.data;
  * @since       1.6
  */
 
-public class Concept {
+public class ConceptHandler {
 	/**
 	* The {@code boolean} representing the male gender.
 	*/
@@ -29,7 +29,7 @@ public class Concept {
 	private String	quote;
 
 	/**
-     * Initiates a new {@code Concept} with the specified character name, concept, campaign name, gender, age, appearance and quote.
+     * Initiates a new {@code ConceptHandler} with the specified character name, concept, campaign name, gender, age, appearance and quote.
 	 *
 	 * @param  name			The name of the character.
 	 *
@@ -45,7 +45,7 @@ public class Concept {
 	 *
 	 * @param  quote		The quote of the character.
      */
-	public Concept(String name, String concept, String campaign, boolean gender, int age, String appearance, String quote) {
+	public ConceptHandler(String name, String concept, String campaign, boolean gender, int age, String appearance, String quote) {
 		this.name		= name;
 		this.concept	= concept;
 		this.campaign	= campaign;
@@ -56,9 +56,9 @@ public class Concept {
 	}
 
 	/**
-     * Initiates a new {@code Concept} with the gender set to female, the age set to {@code 0}, and the rest of the concept left blank.
+     * Initiates a new {@code ConceptHandler} with the gender set to female, the age set to {@code 0}, and the rest of the concept left blank.
      */
-	public Concept() {
+	public ConceptHandler() {
 		name		= "";
 		concept		= "";
 		campaign	= "";

@@ -10,7 +10,7 @@ import java.util.Vector;
  * @since       1.6
  */
 
-public class Points {
+public class PointHandler {
 	//variabler
 	private int start;
 	private int karma;
@@ -19,14 +19,14 @@ public class Points {
 	private int veteran;
 	private int sessions;
 	private int style;
-	private Vector<PointType> other;
+	private Vector<PointTrait> other;
 
 	/**
-     * Initiates a new {@code Points} with the specified number of starting points.
+     * Initiates a new {@code PointHandler} with the specified number of starting points.
 	 *
 	 * @param  start	The number of starting points for the character.
      */
-	public Points(int start) {
+	public PointHandler(int start) {
 		this.start = start;
 		karma = 0;
 		experience = 0;
@@ -34,11 +34,11 @@ public class Points {
 		veteran = 0;
 		sessions = 0;
 		style = 0;
-		other = new Vector<PointType>();
+		other = new Vector<PointTrait>();
 	}
 
 	/**
-     * Initiates a new {@code Points} with the specified number of starting points, karma, current experience,
+     * Initiates a new {@code PointHandler} with the specified number of starting points, karma, current experience,
 	 * spent experience, sessions played and style points.
 	 *
 	 * Veteran points will automatically be calculated.
@@ -55,7 +55,7 @@ public class Points {
 	 *
 	 * @param  style	The number of style points the character currently has.
      */
-	public Points(int start, int karma, int experience, int spent, int sessions, int style) {
+	public PointHandler(int start, int karma, int experience, int spent, int sessions, int style) {
 		this.start = start;
 		this.karma = karma;
 		this.experience = experience;
@@ -63,7 +63,7 @@ public class Points {
 		veteran = 0;
 		this.sessions = sessions;
 		this.style = style;
-		other = new Vector<PointType>();
+		other = new Vector<PointTrait>();
 		updateVeteran();
 	}
 
@@ -80,7 +80,7 @@ public class Points {
 	}
 
 	/**
-	 * Adds an additional type of points for the character, with the specified value.
+	 * Adds an additional point trait for the character, with the specified value.
 	 *
 	 * @param name	The name of the points.
 	 *
@@ -88,65 +88,65 @@ public class Points {
 	 *
 	 * @return {@code true} if the type was added, {@code false} if it already existed.
 	 */
-	public boolean addOtherPointType(String name, int value) {
-		PointType pointType = new PointType(name, value);
-		if (other.contains(pointType)) return false;
-		other.add(pointType);
+	public boolean addOtherPointTrait(String name, int value) {
+		PointTrait pointTrait = new PointTrait(name, value);
+		if (other.contains(pointTrait)) return false;
+		other.add(pointTrait);
 		return true;
 	}
 
 	/**
-	 * Adds an additional type of points for the character, with the value {@code 0}.
+	 * Adds an additional point trait for the character, with the value {@code 0}.
 	 *
 	 * @param name	The name of the points.
 	 *
 	 * @return {@code true} if the type was added, {@code false} if it already existed.
 	 */
-	public boolean addOtherPointType(String name) {
-		PointType pointType = new PointType(name);
-		if (other.contains(pointType)) return false;
-		other.add(pointType);
+	public boolean addOtherPointTrait(String name) {
+		PointTrait pointTrait = new PointTrait(name);
+		if (other.contains(pointTrait)) return false;
+		other.add(pointTrait);
 		return true;
 	}
 
 	/**
-     * Returns the {@code Vector} of {@code PointType} that represent the extra point types and their values.
+     * Returns the {@code Vector} of {@code PointTrait} that represent the extra point types and their values.
 	 *
-	 * @return the {@code Vector<PointType>} that represent the extra point types and their values.
+	 * @return the {@code Vector<PointTrait>} that represent the extra point types and their values.
      */
-	public Vector<PointType> getOtherPoints() {
+	public Vector<PointTrait> getOtherPointTraits() {
 		return other;
 	}
 
 	/**
-     * Returns the {@code PointType} that represent the extra point type with the specified name.
+     * Returns the {@code PointTrait} that represent the extra point type with the specified name.
 	 *
 	 * @param name	The name of the point type.
 	 *
-	 * @return the {@code PointType} that represent the extra point type; returns {@code null}
-	 * if the {@code PointType} doesn't exist.
+	 * @return the {@code PointTrait} that represent the extra point type; returns {@code null}
+	 * if the {@code PointTrait} doesn't exist.
      */
-	public PointType getOtherPoint(String name) {
-		PointType pointType = new PointType(name);
-		for (PointType pt: other) {
-			if (pt.equals(pointType)) return pt;
+	public PointTrait getValueOfOtherPoint(String name) {
+		PointTrait pointTrait = new PointTrait(name);
+		for (PointTrait pt: other) {
+			if (pt.equals(pointTrait)) return pt;
 		}
 		return null;
 	}
 
 	/**
-     * Sets a value to the {@code PointType} with the specified name.
+     * Sets a value to the {@code PointTrait} with the specified name.
      *
      * @param name	The name of the point type.
 	 *
 	 * @param value	The value to be set to the point type.
 	 *
-	 * @return	{@code true} if the {@code PointType} existed; {@code false} otherwise.
+	 * @return	{@code true} if the {@code PointTrait} existed; {@code false} otherwise.
      */
-	public boolean setOtherPoint(String name, int value) {
-		PointType pointType = new PointType(name);
-		for (PointType pt: other) {
-			if (pt.equals(pointType)) {
+	public boolean setValueOfOtherPoint(String name, int value) {
+		PointTrait pointTrait = new PointTrait(name);
+		for (PointTrait pt: other) {
+			if (pt.equals(pointTrait)) {
 				pt.setValue(value);
 				return true;
 			}
@@ -155,18 +155,18 @@ public class Points {
 	}
 
 	/**
-     * Adds a value to the {@code PointType} with the specified name.
+     * Adds a value to the {@code PointTrait} with the specified name.
      *
      * @param name	The name of the point type.
 	 *
 	 * @param value	The value to be added to the point type's current value.
 	 *
-	 * @return	{@code true} if the {@code PointType} existed; {@code false} otherwise.
+	 * @return	{@code true} if the {@code PointTrait} existed; {@code false} otherwise.
      */
-	public boolean addOtherPoint(String name, int value) {
-		PointType pointType = new PointType(name);
-		for (PointType pt: other) {
-			if (pt.equals(pointType)) {
+	public boolean addToValueOfOtherPoint(String name, int value) {
+		PointTrait pointTrait = new PointTrait(name);
+		for (PointTrait pt: other) {
+			if (pt.equals(pointTrait)) {
 				pt.setValue(pt.getValue() + value);
 				return true;
 			}
