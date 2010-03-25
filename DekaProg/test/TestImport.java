@@ -1,4 +1,7 @@
 
+import character.DekaederCharacter;
+import character.data.ConceptHandler;
+import character.data.PointHandler;
 import export.ExportHandler;
 import export.WikiHandler;
 import export.ExportImportHandler;
@@ -13,7 +16,16 @@ public class TestImport {
     public static void main(String[] args) {
         ExportHandler pdfTest = new PDFHandler("file:///C:/DekaProg/",
                 45, 532, 11.3f, 87, 114f);
-        pdfTest.writeCharacter("test", "test");
+        ConceptHandler conceptHandler = new ConceptHandler("Levan Darish", 
+                "Karisma",
+                "Upprorets Piloter",
+                ConceptHandler.GENDER_MALE,
+                21,
+                "Cool kille",
+                "One down! Two to go...");
+        PointHandler pointHandler = new PointHandler(50, 10, 0, 165, 29, 2);
+        DekaederCharacter test = new DekaederCharacter(conceptHandler, pointHandler);
+        pdfTest.writeCharacter(test, "Myggdräpe");
     }
 }
 

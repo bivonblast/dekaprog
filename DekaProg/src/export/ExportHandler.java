@@ -1,5 +1,7 @@
 package export;
 
+import character.DekaederCharacter;
+
 /**
  * This is an abstract Handler for files/databases etc
  * that is only possible to export to, not import from.<br>
@@ -25,7 +27,7 @@ abstract public class ExportHandler {
      * @param character The data to be saved.
      * @return Returns true if it was successfully saved.
      */
-    abstract public boolean writeCharacter(String characterName, String character);
+    abstract public boolean writeCharacter(DekaederCharacter character, String username);
 
      /**
      * This function saves a campaign setting to the database.

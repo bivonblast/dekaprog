@@ -5,6 +5,7 @@
 
 package export;
 
+import character.DekaederCharacter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -64,12 +65,12 @@ public class FileHandler extends ExportImportHandler{
     }
 
     @Override
-    public boolean writeCharacter(String characterName, String character) {
+    public boolean writeCharacter(DekaederCharacter character, String username) {
         try {
-            currentFile = new File(new URI(location + characterName.replaceAll(" ", "%20") + ".dkp"));
+            currentFile = new File(new URI(location + character.getConceptHandler().getName().replaceAll(" ", "%20") + ".dkp"));
             currentFileWriter = new BufferedWriter(new FileWriter(currentFile));
 
-            currentFileWriter.write(character);
+            //currentFileWriter.write(character);
             currentFileWriter.flush();
             currentFileWriter.close();
             return true;
