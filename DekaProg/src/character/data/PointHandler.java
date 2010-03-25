@@ -195,6 +195,7 @@ public class PointHandler extends TraitHandler<PointTrait> {
      */
 	public void setSpentExperiencePoints(int spent) {
 		this.spent = spent;
+                updateVeteran();
 	}
 
 	/**
@@ -213,9 +214,17 @@ public class PointHandler extends TraitHandler<PointTrait> {
 	 * @param freeExperience The number of experience points gained in other ways.
      */
 	public void spendExperiencePoints(int experience, int freeExperience) {
-		this.experience -= experience;
-		spent += experience + freeExperience;
-		updateVeteran();
+                if ((spent < start) && (start - spent >= experience)) {
+                    spent += experience + freeExperience;
+                } else {
+                    if (spent < start) {
+                        experience -= (start - spent);
+                        spent = start;
+                    }
+                    this.experience -= experience;
+                    spent += experience + freeExperience;
+                    updateVeteran();
+                }
 	}
 
         /*private void calculateSpentPoints() {
