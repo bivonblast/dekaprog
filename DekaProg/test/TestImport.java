@@ -23,7 +23,7 @@ public class TestImport {
                 21,
                 "Cool kille",
                 "One down! Two to go...");
-        PointHandler pointHandler = new PointHandler(50, 10, 0, 165, 29, 2);
+        PointHandler pointHandler = new PointHandler(50, 10, 0, 165+50, 29, 2);
         DekaederCharacter test = new DekaederCharacter(conceptHandler, pointHandler);
         pdfTest.writeCharacter(test, "Myggdräpe");
     }
