@@ -3,6 +3,8 @@ package export;
 import character.DekaederCharacter;
 import character.data.ConceptHandler;
 import character.data.PointHandler;
+import character.data.Trait;
+import character.data.TraitHandler;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -23,12 +25,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author Martin
+ * @author Martin Andersson
  */
 public class PDFHandler extends ExportHandler {
     /** The source PDF. */
@@ -65,11 +68,12 @@ public class PDFHandler extends ExportHandler {
         try {
             this.character = character;
             source = new URI(location + "rollf.pdf");
-            result = new URI(location + character.getConceptHandler().getName().replaceAll(" ", "%20") + ".pdf");
+            result = new URI(location + character.getConceptHandler().getTrait("Namn").valueToString().replaceAll(" ", "%20") + ".pdf");
             temp = new URI(location + "temp.pdf");
             this.username = username;
             //this.character = new URI(location + "BenGrape.jpg");
             return createFile();
+
         } catch (URISyntaxException ex) {
             //Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -150,11 +154,11 @@ public class PDFHandler extends ExportHandler {
         under.addTemplate(page, 1f, 0, 0f, 1f, 0, 0);
         document.newPage();
         // Layer 2: Text
+        Vector<TextPositionInPdf> allText = new Vector<TextPositionInPdf>();
         // Koncept
-        ArrayList<TextPositionInPdf> allText = new ArrayList<TextPositionInPdf>();
-        allText.addAll(getConceptXY());
-        allText.addAll(getPointsXY());
+        allText.addAll(getTraitToPdf(character.getConceptHandler()));
         // Poäng
+        allText.addAll(getTraitToPdf(character.getPointHandler()));
 
         // Färdigheter
         BaseFont bf
@@ -162,7 +166,7 @@ public class PDFHandler extends ExportHandler {
         under.beginText();
         under.setFontAndSize(bf, 10);
         for(TextPositionInPdf curLine : allText){
-            under.showTextAligned(Element.ALIGN_LEFT, curLine.getText(), curLine.x, curLine.y, 0);
+            under.showTextAligned(curLine.getAlignment(), curLine.getText(), curLine.getX(), curLine.getY(), 0);
         }
         for(int column = 0 ; column < 3 ; column++){
             for(int row = 0 ; row < 26 ; row++){
@@ -223,72 +227,56 @@ public class PDFHandler extends ExportHandler {
         return abilities[ability];
     }
 
-    private ArrayList<TextPositionInPdf> getConceptXY(){
-        {
-            String[] stringsToRead = {"Namn", "Koncept", "Kampanj", "Kön", "Ålder", "Utseende", "Citat"};
-            BufferedReader currentFileReader = null;
-            ArrayList<TextPositionInPdf> parsedText = new ArrayList<TextPositionInPdf>();
-
-            try {
-                File conceptFile = new File(new URI(location + "Concept.txt"));
+    private Vector<TextPositionInPdf> getTraitToPdf(TraitHandler curHandler){
+        Vector<Trait> allTraits = curHandler.getTraits();
+        Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
+        BufferedReader currentFileReader = null;
+        try {
+            File conceptFile = new File(new URI(location + "rollf.cfg"));
+            for (Trait curTrait : allTraits) {
                 currentFileReader = new BufferedReader(new FileReader(conceptFile));
                 String bufLine;
+                //Vector<Trait> traits = character.get
                 while ((bufLine = currentFileReader.readLine()) != null) {
-                    if(bufLine.contains(stringsToRead[0])){
-                        parsedText.add(new TextPositionInPdf(bufLine, character.getConceptHandler().getName()));
-                    }else if(bufLine.contains(stringsToRead[1])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getConceptHandler().getConcept()));
-                    }else if(bufLine.contains(stringsToRead[2])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getConceptHandler().getCampaign()));
-                    }else if(bufLine.contains(stringsToRead[3])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + (character.getConceptHandler().getGender() ? "Man" : "Kvinna")));
-                    }else if(bufLine.contains(stringsToRead[4])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getConceptHandler().getAge() + " år"));
-                    }else if(bufLine.contains(stringsToRead[5])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getConceptHandler().getApperance()));
-                    }else if(bufLine.contains(stringsToRead[6])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getConceptHandler().getQuote()));
+                    if(bufLine.contains(curTrait.getName())){
+                        resultingText.add(new TextPositionInPdf(bufLine, curTrait.valueToString()));
+                        break;
                     }
                 }
-
                 currentFileReader.close();
-                return parsedText;
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    currentFileReader.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
+            return resultingText;
+        } catch (IOException ex) {
+                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (URISyntaxException ex) {
+            Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
-        private ArrayList<TextPositionInPdf> getPointsXY(){
+   
+        private Vector<TextPositionInPdf> getTraitToPdf(PointHandler curHandler){
         {
-            String[] stringsToRead = {"Karma", "Rollpoäng", "VeteranPoäng", "VeteranÄventyr", "Stilpoäng"};
+            String[] stringsToRead = {"Karma", "Rollpoäng", "VeteranPoäng", "VeteranÄventyr", "Stilpoäng", "Startpoäng"};
             BufferedReader currentFileReader = null;
-            ArrayList<TextPositionInPdf> parsedText = new ArrayList<TextPositionInPdf>();
+            Vector<TextPositionInPdf> parsedText = new Vector<TextPositionInPdf>();
 
             try {
-                File conceptFile = new File(new URI(location + "Points.txt"));
+                File conceptFile = new File(new URI(location + "rollf.cfg"));
                 currentFileReader = new BufferedReader(new FileReader(conceptFile));
                 String bufLine;
                 while ((bufLine = currentFileReader.readLine()) != null) {
                     if(bufLine.contains(stringsToRead[0])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getPointHandler().getKarma()));
+                        parsedText.add(new TextPositionInPdf(bufLine, "" + curHandler.getTrait(stringsToRead[0]).valueToString()));
                     }else if(bufLine.contains(stringsToRead[1])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getPointHandler().getExperiencePoints()));
+                        parsedText.add(new TextPositionInPdf(bufLine, "" + curHandler.getExperiencePoints()));
                     }else if(bufLine.contains(stringsToRead[2])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getPointHandler().getVeteranPoints()));
+                        parsedText.add(new TextPositionInPdf(bufLine, "" + curHandler.getVeteranPoints()));
                     }else if(bufLine.contains(stringsToRead[3])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getPointHandler().getSessions()));
+                        parsedText.add(new TextPositionInPdf(bufLine, "" + curHandler.getTrait(stringsToRead[3]).valueToString()));
                     }else if(bufLine.contains(stringsToRead[4])){
-                        parsedText.add(new TextPositionInPdf(bufLine, "" + character.getPointHandler().getStylePoints()));
+                        parsedText.add(new TextPositionInPdf(bufLine, "" + curHandler.getTrait(stringsToRead[4]).valueToString()));
+                    }else if(bufLine.contains(stringsToRead[5])){
+                        parsedText.add(new TextPositionInPdf(bufLine, "" + curHandler.getStartingPoints()));
                     }
                 }
 
@@ -314,6 +302,7 @@ public class PDFHandler extends ExportHandler {
         private int x;
         private int y;
         private int length;
+        private int alignment = Element.ALIGN_LEFT;
 
         /**
          * The extract-constructor, creating a TextPositionInPdf from a string from a config-file
@@ -322,6 +311,8 @@ public class PDFHandler extends ExportHandler {
          */
         public TextPositionInPdf(String line, String label){
             this.text = label;
+            alignment = Integer.decode(line.substring(line.lastIndexOf("#")+1, line.length())).intValue();
+            line = line.substring(0, line.lastIndexOf("#"));
             length = Integer.decode(line.substring(line.lastIndexOf("#")+1, line.length())).intValue();
             line = line.substring(0, line.lastIndexOf("#"));
             y = Integer.decode(line.substring(line.lastIndexOf("#")+1, line.length()));
@@ -363,10 +354,25 @@ public class PDFHandler extends ExportHandler {
 
         /**
          * Sets the value of variable text
-         * @param new value of text
+         * @param text new value of text
          */
         public void setText(String text) {
             this.text = text;
+        }
+
+        /**
+         * Returns value of variable text
+         * @return alignment
+         */public int getAlignment() {
+            return alignment;
+        }
+
+        /**
+         * Sets the value of variable text
+         * @param alignment new value of text
+         */
+        public void setAlignment(int alignment) {
+            this.alignment = alignment;
         }
 
         /**
@@ -379,7 +385,7 @@ public class PDFHandler extends ExportHandler {
 
         /**
          * Sets the value of variable length
-         * @param new value of length
+         * @param length new value of length
          */
         public void setLength(int length) {
             this.length = length;
@@ -390,12 +396,20 @@ public class PDFHandler extends ExportHandler {
          * @return x
          */
         public int getX() {
-            return x;
+            if(alignment == Element.ALIGN_LEFT){
+                return x;
+            }else if(alignment == Element.ALIGN_CENTER){
+                return x + length/2;
+            }else if(alignment == Element.ALIGN_RIGHT){
+                return x + length;
+            }else{
+                return x;
+            }
         }
 
         /**
          * Sets the value of variable x
-         * @param new value of x
+         * @param x new value of x
          */
         public void setX(int x) {
             this.x = x;
@@ -411,7 +425,7 @@ public class PDFHandler extends ExportHandler {
 
         /**
          * Sets the value of variable y
-         * @param new value of y
+         * @param text y value of y
          */
         public void setY(int y) {
             this.y = y;
