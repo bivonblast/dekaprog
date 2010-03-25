@@ -13,19 +13,20 @@ public class SkillType implements Comparable<SkillType> {
 	/**
 	* The {@code int} representing a physical skill.
 	*/
-	public static final int PHYSICAL	= 1000;
+	private static final int PHYSICAL	= 1000;
 
 	/**
 	* The {@code int} representing a social skill.
 	*/
-	public static final int MENTAL		= 1001;
+	private static final int MENTAL		= 1001;
 
 	/**
 	* The {@code int} representing a mental skill.
 	*/
-	public static final int SOCIAL		= 1002;
+	private static final int SOCIAL		= 1002;
 
 	private int type;
+        private static SkillType physical, mental, social;
 
 	/**
      * Initiates a new {@code SkillType} with the specified type.
@@ -38,30 +39,39 @@ public class SkillType implements Comparable<SkillType> {
 
 
 	/**
-	 * Returns a new instance of a physical {@code SkillType}.
+	 * Returns a physical {@code SkillType} singleton.
 	 *
-	 * @return	a new instance of {@code SkillType}, with its type set to {@code PHYSICAL}.
+	 * @return  a physical {@code SkillType} singleton.
 	 */
-	public SkillType newPhysicalSkillType() {
-		return new SkillType(PHYSICAL);
+	public static synchronized SkillType newPhysicalSkillType() {
+            if (physical == null) {
+		physical = new SkillType(PHYSICAL);
+            }
+            return physical;
 	}
 
 	/**
-	 * Returns a new instance of a social {@code SkillType}.
+	 * Returns a social {@code SkillType} singleton.
 	 *
-	 * @return	a new instance of {@code SkillType}, with its type set to {@code SOCIAL}.
+	 * @return  a social {@code SkillType} singleton.
 	 */
-	public SkillType newSocialSkillType() {
-		return new SkillType(SOCIAL);
+	public static synchronized SkillType newSocialSkillType() {
+            if (social == null) {
+		social = new SkillType(SOCIAL);
+            }
+            return social;
 	}
 
 	/**
-	 * Returns a new instance of a mental {@code SkillType}.
+	 * Returns a mental {@code SkillType} singleton.
 	 *
-	 * @return	a new instance of {@code SkillType}, with its type set to {@code MENTAL}.
+	 * @return  a mental {@code SkillType} singleton.
 	 */
-	public SkillType newMentalSkillType() {
-		return new SkillType(MENTAL);
+	public static synchronized SkillType newMentalSkillType() {
+            if (mental == null) {
+		mental = new SkillType(MENTAL);
+            }
+            return mental;
 	}
 
 	/**
@@ -99,6 +109,18 @@ public class SkillType implements Comparable<SkillType> {
 	public boolean isMental() {
 		return type == MENTAL;
 	}
+
+        /**
+         * Overrides {@code Object.clone()} to prevent cloning.
+         * @return Nothing. This method will throw an CloneNotSupportedException
+         * if anyone tries to clone it.
+         * @throws CloneNotSupportedException Always.
+         * @see Object#clone()
+         */
+    @Override
+        public Object clone() throws CloneNotSupportedException {
+            throw new CloneNotSupportedException();
+        }
 
 	/**
      * Compares this {@code SkillType} to the specified object.
