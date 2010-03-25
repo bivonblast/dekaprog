@@ -56,16 +56,15 @@ public class PointHandler extends TraitHandler<PointTrait> {
 		updateVeteran();
 	}
 
-	/**
-	 * Adds an additional point trait for the character, with the specified value.
-	 *
-	 * @param name	The name of the points.
-	 *
-	 * @param value The number of points the character has.
-	 *
-	 * @return {@code true} if the type was added, {@code false} if it already existed.
-	 */
-	public boolean addPointTrait(String traitName, int traitValue) {
+        /**
+     * Adds a new {@code PointTrait} to the {@code PointHandler}, given
+     * that is deosn't already exist.
+     * @param traitName The name of the new {@code PointTrait}.
+     * @param traitValue The {@code String} value of the new {@code PointTrait}.
+     * @return {@code true} if the {@code PointTrait} was added, {@code false}
+     * if it already existed.
+     */
+        public boolean addPointTrait(String traitName, int traitValue) {
             for (PointTrait pt : this) {
                 if (pt.getName().equalsIgnoreCase(traitName)) return false;
             }
@@ -73,6 +72,14 @@ public class PointHandler extends TraitHandler<PointTrait> {
             return true;
         }
 
+
+    /**
+     * Removes the {@code PointTrait} with the specified name from the
+     * {@code PointHandler}, given that it exists.
+     * @param traitName The name of the {@code PointTrait} to be removed.
+     * @return {@code true} if the {@code PointTrait} was succesfully removed,
+     * {@code false} if it didn't exist.
+     */
         public boolean removePointTrait(String traitName) {
             for (int i = 0; i < size(); i++) {
                 if (get(i).getName().equalsIgnoreCase(traitName)) {
@@ -83,14 +90,13 @@ public class PointHandler extends TraitHandler<PointTrait> {
             return false;
         }
 
-	/**
-     * Sets a value to the {@code PointTrait} with the specified name.
-     *
-     * @param name	The name of the point type.
-	 *
-	 * @param value	The value to be set to the point type.
-	 *
-	 * @return	{@code true} if the {@code PointTrait} existed; {@code false} otherwise.
+    /**
+     * Sets a value to the {@code PointTrait} with the specified name, given
+     * that it exists.
+     * @param traitName The name of the {@code PointTrait} to be altered.
+     * @param traitValue The new value of the {@code PointTrait}.
+     * @return @return {@code true} if the {@code PointTrait} was succesfully
+     * altered, {@code false} if it didn't exist.
      */
 	public boolean setConceptTraitValue(String traitName, int traitValue) {
             for (PointTrait pt : this) {
@@ -102,14 +108,13 @@ public class PointHandler extends TraitHandler<PointTrait> {
             return false;
         }
 
-	/**
-     * Adds a value to the {@code PointTrait} with the specified name.
-     *
-     * @param name	The name of the point type.
-	 *
-	 * @param value	The value to be added to the point type's current value.
-	 *
-	 * @return	{@code true} if the {@code PointTrait} existed; {@code false} otherwise.
+    /**
+     * Adds a value to the existing value of {@code PointTrait} with the
+     * specified name, given that it exists.
+     * @param traitName The name of the {@code PointTrait} to be altered.
+     * @param traitValue The value to add to the value of the {@code PointTrait}.
+     * @return @return {@code true} if the {@code PointTrait} was succesfully
+     * altered, {@code false} if it didn't exist.
      */
 	public boolean addToConceptTraitValue(String traitName, int traitValue) {
             for (PointTrait pt : this) {
@@ -121,7 +126,7 @@ public class PointHandler extends TraitHandler<PointTrait> {
             return false;
         }
 
-	/**
+    /**
      * Returns the number of starting points assigned to the character.
 	 *
 	 * @return the number of starting points assigned to the character.

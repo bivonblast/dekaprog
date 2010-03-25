@@ -1,21 +1,30 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package character.data;
 
 import java.util.Vector;
 
 /**
+ * Class for keeping track of the character traits.
  *
- * @author Jonas Frogvall
+ * @author      Jonas Frogvall
+ * @version     %I%, %G%
+ * @since       1.6
  */
 public abstract class TraitHandler<E extends Trait> extends Vector<E> {
+
+    /**
+     * Initiates a new, empty {@code TraitHandler}.
+     */
     protected TraitHandler() {
         super();
     }
 
+
+    /**
+     * Returns a generic {@code Trait} represented by the specific name, stored
+     * in this handler.
+     * @param traitName The name of the desired Trait.
+     * @return The {@code Trait} with the specified name.
+     */
     public E getTrait(String traitName) {
         for (E e : this) {
             if (e.getName().equalsIgnoreCase(traitName)) return e;
@@ -23,6 +32,11 @@ public abstract class TraitHandler<E extends Trait> extends Vector<E> {
         return null;
     }
 
+    /**
+     * Returns all the {@code Trait}s in this handler.
+     * @return A Vector of generic {@code Trait}s, containing all the traits store in
+     * this handler.
+     */
     public Vector<E> getTraits() {
         return this;
     }

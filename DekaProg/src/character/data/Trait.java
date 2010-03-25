@@ -89,5 +89,10 @@ public abstract class Trait<V> {
 		this.value = value;
 	}
 
+    /**
+     * Method to be overridden.
+     * Should return the trait's value as a string.
+     * @return the value as a String.
+     */
         public abstract String valueToString();
 }
