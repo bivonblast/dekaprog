@@ -1,16 +1,13 @@
 package export;
 
+import character.DekaederCharacter;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sourceforge.jwbf.actions.mediawiki.editing.PostDelete;
-import net.sourceforge.jwbf.actions.mediawiki.editing.PostModifyContent;
-import net.sourceforge.jwbf.actions.mediawiki.meta.Siteinfo;
 import net.sourceforge.jwbf.actions.util.ActionException;
 import net.sourceforge.jwbf.actions.util.ProcessException;
 import net.sourceforge.jwbf.bots.MediaWikiBot;
 import net.sourceforge.jwbf.contentRep.Article;
-import net.sourceforge.jwbf.contentRep.Userinfo;
 
 
 
@@ -88,9 +85,9 @@ public class WikiHandler extends ExportImportHandler{
     }
 
     @Override
-    public boolean writeCharacter(String characterName, String character) {
+    public boolean writeCharacter(DekaederCharacter character, String username) {
         try {
-            curArticle.setText(character);
+            curArticle.setText(character.getConceptHandler().getName());
             //wikiConnection.performAction(new PostModifyContent(wikiConnection, curArticle));
             wikiConnection.writeContent(curArticle);
             return true;
