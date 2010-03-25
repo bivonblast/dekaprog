@@ -8,17 +8,17 @@ package character.data;
  * @since       1.6
  */
 
-public class Trait {
+public abstract class Trait<V> {
 	//variabler
 	private String	name;
-	private int		value;
+	private V	value;
 
-	/**
+    /**
      * Initiates a new {@code Trait} with no name and the value {@code 0}.
      */
-	public Trait() {
+	protected Trait() {
 		this.name = "";
-		this.value = 0;
+		this.value = null;
 	}
 
 	/**
@@ -26,9 +26,9 @@ public class Trait {
 	 *
 	 * @param  name		The name of the {@code Trait}.
      */
-	public Trait(String name) {
+	protected Trait(String name) {
 		this.name = name;
-		this.value = 0;
+		this.value = null;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class Trait {
 	 *
 	 * @param  value	The value of the {@code Trait}.
      */
-	public Trait(int value) {
+	public Trait(V value) {
 		this.name = "";
 		this.value = value;
 	}
@@ -48,7 +48,7 @@ public class Trait {
 	 *
 	 * @param  value	The value of the {@code Trait}.
      */
-	public Trait(String name, int value) {
+	public Trait(String name, V value) {
 		this.name = name;
 		this.value = value;
 	}
@@ -67,7 +67,7 @@ public class Trait {
 	 *
 	 * @return the value of this {@code Trait}.
      */
-	public int getValue() {
+	public V getValue() {
 		return value;
 	}
 
@@ -85,7 +85,9 @@ public class Trait {
      *
      * @param value		The value to be set to this {@code Trait}.
      */
-	public void setValue(int value) {
+	public void setValue(V value) {
 		this.value = value;
 	}
+
+        public abstract String valueToString();
 }
