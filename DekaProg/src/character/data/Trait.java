@@ -14,7 +14,7 @@ public abstract class Trait<V> {
 	private V	value;
 
     /**
-     * Initiates a new {@code Trait} with no name and the value {@code 0}.
+     * Initiates a new {@code Trait} with no name and the value {@code null}.
      */
 	protected Trait() {
 		this.name = "";
@@ -22,7 +22,8 @@ public abstract class Trait<V> {
 	}
 
 	/**
-     * Initiates a new {@code Trait} with the specified name and the value {@code 0}.
+     * Initiates a new {@code Trait} with the specified name and the value 
+         * {@code null}.
 	 *
 	 * @param  name		The name of the {@code Trait}.
      */
@@ -36,7 +37,7 @@ public abstract class Trait<V> {
 	 *
 	 * @param  value	The value of the {@code Trait}.
      */
-	public Trait(V value) {
+	protected Trait(V value) {
 		this.name = "";
 		this.value = value;
 	}
@@ -48,7 +49,7 @@ public abstract class Trait<V> {
 	 *
 	 * @param  value	The value of the {@code Trait}.
      */
-	public Trait(String name, V value) {
+	protected Trait(String name, V value) {
 		this.name = name;
 		this.value = value;
 	}
