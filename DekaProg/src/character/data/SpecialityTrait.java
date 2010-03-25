@@ -8,7 +8,7 @@ package character.data;
  * @since       1.6
  */
 
-public class SpecialityTrait extends Trait implements Comparable<SpecialityTrait> {
+public class SpecialityTrait extends Trait<Integer> implements Comparable<SpecialityTrait> {
 	//variabler
 	private SkillTrait skillTrait;
 
@@ -21,7 +21,7 @@ public class SpecialityTrait extends Trait implements Comparable<SpecialityTrait
 	 * @param  skillTrait	The {@code SkillTrait} that is the parent of this {@code Specialty}.
      */
 	public SpecialityTrait(String name, SkillTrait skillTrait) {
-		super(name);
+		super(name, 0);
 		this.skillTrait = skillTrait;
 		skillTrait.addSpeciality(this);
 	}
@@ -33,11 +33,11 @@ public class SpecialityTrait extends Trait implements Comparable<SpecialityTrait
 	 *
 	 * @param  name		The name of the {@code SpecialityTrait}.
 	 *
-	 * @param  value	The value of the {@code SpecialityTrait}.
-	 *
 	 * @param  skillTrait	The {@code SkillTrait} that is the parent of this {@code Specialty}.
+         *
+	 * @param  value	The value of the {@code SpecialityTrait}.
      */
-	public SpecialityTrait(String name, int value, SkillTrait skillTrait) {
+	public SpecialityTrait(String name, SkillTrait skillTrait, int value) {
 		super(name, value);
 		this.skillTrait = skillTrait;
 		skillTrait.addSpeciality(this);
@@ -48,7 +48,7 @@ public class SpecialityTrait extends Trait implements Comparable<SpecialityTrait
 	 *
 	 * @return the parent {@code SkillTrait} of this {@code SpecialityTrait}.
      */
-	public SkillTrait getSkillTrait() {
+	public SkillTrait getSkill() {
 		return skillTrait;
 	}
 
@@ -60,11 +60,16 @@ public class SpecialityTrait extends Trait implements Comparable<SpecialityTrait
      *
      * @param skillTrait		The new parent{@code SkillTrait} of this {@code SpecialityTrait}.
      */
-	public void changeSkillTrait(SkillTrait skillTrait) {
+	public void changeSkill(SkillTrait skillTrait) {
 		this.skillTrait.removeSpeciality(this);
 		this.skillTrait = skillTrait;
 		this.skillTrait.addSpeciality(this);
 	}
+
+    @Override
+        public String valueToString() {
+            return getValue().toString();
+        }
 
 	/**
      * Compares this {@code SpecialityTrait} to the specified object.
@@ -75,9 +80,20 @@ public class SpecialityTrait extends Trait implements Comparable<SpecialityTrait
      * @return  {@code true} if the given object represents a {@code SpecialityTrait}
      *          equivalent to this {@code SpecialityTrait}, {@code false} otherwise.
      */
+    @Override
 	public boolean equals(Object anObject) {
+            if (this == anObject) return true;
+            if (anObject instanceof SpecialityTrait)
 		return getName().equals(((SpecialityTrait)anObject).getName());
+            return false;
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + (getName() != null ? getName().hashCode() : 0);
+        return hash;
+    }
 
 	/**
 	 * Compares two specialities lexicographically.

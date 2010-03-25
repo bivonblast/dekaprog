@@ -1,7 +1,5 @@
 package character.data;
 
-import java.util.Vector;
-
 /**
  * Class for keeping track on points.
  *
@@ -10,16 +8,12 @@ import java.util.Vector;
  * @since       1.6
  */
 
-public class PointHandler {
+public class PointHandler extends TraitHandler<PointTrait> {
 	//variabler
 	private int start;
-	private int karma;
 	private int experience;
 	private int spent;
 	private int veteran;
-	private int sessions;
-	private int style;
-	private Vector<PointTrait> other;
 
 	/**
      * Initiates a new {@code PointHandler} with the specified number of starting points.
@@ -27,44 +21,27 @@ public class PointHandler {
 	 * @param  start	The number of starting points for the character.
      */
 	public PointHandler(int start) {
-		this.start = start;
-		karma = 0;
-		experience = 0;
-		spent = 0;
-		veteran = 0;
-		sessions = 0;
-		style = 0;
-		other = new Vector<PointTrait>();
+            this.start = start;
+            experience = 0;
+            spent = 0;
+            veteran = 0;
 	}
 
 	/**
-     * Initiates a new {@code PointHandler} with the specified number of starting points, karma, current experience,
-	 * spent experience, sessions played and style points.
+     * Initiates a new {@code PointHandler} with the specified number of starting 
+         * points and experience.
 	 *
 	 * Veteran points will automatically be calculated.
 	 *
 	 * @param  start	The number of starting points for the character.
 	 *
-	 * @param  karma	The number of karma the character currently has.
-	 *
 	 * @param  experience The current number of experience points the character has.
-	 *
-	 * @param  spent	The number of experience points the character has already spent.
-	 *
-	 * @param  sessions	The number of sessions the character has participated in.
-	 *
-	 * @param  style	The number of style points the character currently has.
      */
-	public PointHandler(int start, int karma, int experience, int spent, int sessions, int style) {
-		this.start = start;
-		this.karma = karma;
-		this.experience = experience;
-		this.spent = spent;
-		veteran = 0;
-		this.sessions = sessions;
-		this.style = style;
-		other = new Vector<PointTrait>();
-		updateVeteran();
+	public PointHandler(int start, int experience) {
+            this.start = start;
+            this.experience = experience;
+            spent = 0;
+            updateVeteran();
 	}
 
 	/**
@@ -88,51 +65,23 @@ public class PointHandler {
 	 *
 	 * @return {@code true} if the type was added, {@code false} if it already existed.
 	 */
-	public boolean addOtherPointTrait(String name, int value) {
-		PointTrait pointTrait = new PointTrait(name, value);
-		if (other.contains(pointTrait)) return false;
-		other.add(pointTrait);
-		return true;
-	}
+	public boolean addPointTrait(String traitName, int traitValue) {
+            for (PointTrait pt : this) {
+                if (pt.getName().equalsIgnoreCase(traitName)) return false;
+            }
+            add(new PointTrait(traitName, traitValue));
+            return true;
+        }
 
-	/**
-	 * Adds an additional point trait for the character, with the value {@code 0}.
-	 *
-	 * @param name	The name of the points.
-	 *
-	 * @return {@code true} if the type was added, {@code false} if it already existed.
-	 */
-	public boolean addOtherPointTrait(String name) {
-		PointTrait pointTrait = new PointTrait(name);
-		if (other.contains(pointTrait)) return false;
-		other.add(pointTrait);
-		return true;
-	}
-
-	/**
-     * Returns the {@code Vector} of {@code PointTrait} that represent the extra point types and their values.
-	 *
-	 * @return the {@code Vector<PointTrait>} that represent the extra point types and their values.
-     */
-	public Vector<PointTrait> getOtherPointTraits() {
-		return other;
-	}
-
-	/**
-     * Returns the {@code PointTrait} that represent the extra point type with the specified name.
-	 *
-	 * @param name	The name of the point type.
-	 *
-	 * @return the {@code PointTrait} that represent the extra point type; returns {@code null}
-	 * if the {@code PointTrait} doesn't exist.
-     */
-	public PointTrait getValueOfOtherPoint(String name) {
-		PointTrait pointTrait = new PointTrait(name);
-		for (PointTrait pt: other) {
-			if (pt.equals(pointTrait)) return pt;
-		}
-		return null;
-	}
+        public boolean removePointTrait(String traitName) {
+            for (int i = 0; i < size(); i++) {
+                if (get(i).getName().equalsIgnoreCase(traitName)) {
+                    remove(i);
+                    return true;
+                }
+            }
+            return false;
+        }
 
 	/**
      * Sets a value to the {@code PointTrait} with the specified name.
@@ -143,16 +92,15 @@ public class PointHandler {
 	 *
 	 * @return	{@code true} if the {@code PointTrait} existed; {@code false} otherwise.
      */
-	public boolean setValueOfOtherPoint(String name, int value) {
-		PointTrait pointTrait = new PointTrait(name);
-		for (PointTrait pt: other) {
-			if (pt.equals(pointTrait)) {
-				pt.setValue(value);
-				return true;
-			}
-		}
-		return false;
-	}
+	public boolean setConceptTraitValue(String traitName, int traitValue) {
+            for (PointTrait pt : this) {
+                if (pt.getName().equalsIgnoreCase(traitName)) {
+                    pt.setValue(traitValue);
+                    return true;
+                }
+            }
+            return false;
+        }
 
 	/**
      * Adds a value to the {@code PointTrait} with the specified name.
@@ -163,16 +111,15 @@ public class PointHandler {
 	 *
 	 * @return	{@code true} if the {@code PointTrait} existed; {@code false} otherwise.
      */
-	public boolean addToValueOfOtherPoint(String name, int value) {
-		PointTrait pointTrait = new PointTrait(name);
-		for (PointTrait pt: other) {
-			if (pt.equals(pointTrait)) {
-				pt.setValue(pt.getValue() + value);
-				return true;
-			}
-		}
-		return false;
-	}
+	public boolean addToConceptTraitValue(String traitName, int traitValue) {
+            for (PointTrait pt : this) {
+                if (pt.getName().equalsIgnoreCase(traitName)) {
+                    pt.setValue(pt.getValue().intValue() + traitValue);
+                    return true;
+                }
+            }
+            return false;
+        }
 
 	/**
      * Returns the number of starting points assigned to the character.
@@ -181,15 +128,6 @@ public class PointHandler {
      */
 	public int getStartingPoints() {
 		return start;
-	}
-
-	/**
-     * Returns the number of karma the character has.
-	 *
-	 * @return the number of karma the character has.
-     */
-	public int getKarma() {
-		return karma;
 	}
 
 	/**
@@ -220,24 +158,6 @@ public class PointHandler {
 	}
 
 	/**
-     * Returns the number of sessions the character has participated in.
-	 *
-	 * @return the number of sessions the character has participated in.
-     */
-	public int getSessions() {
-		return sessions;
-	}
-
-	/**
-     * Returns the number of style points the character has.
-	 *
-	 * @return the number of style points the character has.
-     */
-	public int getStylePoints() {
-		return style;
-	}
-
-	/**
      * Sets the number of starting points for the character.
 	 *
 	 * Veteran points will be recalculated.
@@ -247,15 +167,6 @@ public class PointHandler {
 	public void setStartingPoints(int start) {
 		this.start = start;
 		updateVeteran();
-	}
-
-	/**
-     * Sets the number of karma the character has.
-     *
-     * @param karma	The number of karma the character has.
-     */
-	public void setKarma(int karma) {
-		this.karma = karma;
 	}
 
 	/**
@@ -282,24 +193,6 @@ public class PointHandler {
 	}
 
 	/**
-     * Sets the number of sessions the character has participated in.
-     *
-     * @param sessions	The number of sessions the character has participated in.
-     */
-	public void setSessions(int sessions) {
-		this.sessions = sessions;
-	}
-
-	/**
-     * Sets the number of style points the character has.
-     *
-     * @param style	The number of style points the character has.
-     */
-	public void setStylePoints(int style) {
-		this.style = style;
-	}
-
-	/**
      * Spend experience points for the character.
 	 *
 	 * When spending experience points for the character, the current experience points
@@ -320,7 +213,11 @@ public class PointHandler {
 		updateVeteran();
 	}
 
+        /*private void calculateSpentPoints() {
+            //dosomethinglater
+        }*/
+
 	private void updateVeteran() {
-		veteran = experience + spent - start;
+            veteran = experience + spent - start;
 	}
 }

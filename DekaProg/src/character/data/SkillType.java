@@ -110,9 +110,20 @@ public class SkillType implements Comparable<SkillType> {
      *          equivalent to this {@code SkillType}, {@code false} otherwise.
 
      */
-	public boolean equals(Object anObject) {
-		return type == ((SkillType)anObject).getType();
-	}
+    @Override
+    public boolean equals(Object anObject) {
+        if (this == anObject) return true;
+        if (anObject instanceof SkillType)
+            return type == ((SkillType)anObject).getType();
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + this.type;
+        return hash;
+    }
 
 	/**
 	 * Compares two skill types.

@@ -11,7 +11,7 @@ import java.util.Collections;
  * @since       1.6
  */
 
-public class SkillTrait extends Trait implements Comparable<SkillTrait> {
+public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait> {
 	//variabler
 	private SkillType type;
 	private int bonusValue;
@@ -25,25 +25,43 @@ public class SkillTrait extends Trait implements Comparable<SkillTrait> {
 	 * @param  type		The type of the {@code SkillTrait}.
      */
 	public SkillTrait(String name, SkillType type) {
-		super(name);
+		super(name, 0);
 		this.type = type;
 		this.bonusValue = 0;
 		specialities = new Vector<SpecialityTrait>();
 	}
 
 	/**
-     * Initiates a new {@code SkillTrait} with the specified name, value and type.
+     * Initiates a new {@code SkillTrait} with the specified name, type and value.
 	 *
 	 * @param  name		The name of the {@code SkillTrait}.
-	 *
-	 * @param  value	The value of the {@code SkillTrait}.
-	 *
+	 *	 
 	 * @param  type		The type of the {@code SkillTrait}.
+         *
+         * @param  value	The value of the {@code SkillTrait}.
      */
-	public SkillTrait(String name, int value, SkillType type) {
+	public SkillTrait(String name, SkillType type, int value) {
 		super(name, value);
 		this.type = type;
 		this.bonusValue = 0;
+		specialities = new Vector<SpecialityTrait>();
+	}
+        
+        /**
+     * Initiates a new {@code SkillTrait} with the specified name, type, value and bonus value.
+	 *
+	 * @param  name		The name of the {@code SkillTrait}.
+	 *
+         * @param  type		The type of the {@code SkillTrait}.
+         * 
+	 * @param  value	The value of the {@code SkillTrait}.
+	 *
+	 * @param  bonusValue   The bonus value of the {@code SkillTrait}.
+     */
+	public SkillTrait(String name, SkillType type, int value, int bonusValue) {
+		super(name, value);
+		this.type = type;
+		this.bonusValue = bonusValue;
 		specialities = new Vector<SpecialityTrait>();
 	}
 
@@ -116,7 +134,7 @@ public class SkillTrait extends Trait implements Comparable<SkillTrait> {
 	 * @return {@code true} if the element was added, {@code false} if it already existed.
      */
 
-	public boolean addSpeciality(SpecialityTrait spec) {
+	protected boolean addSpeciality(SpecialityTrait spec) {
 		if (specialities.contains(spec)) return false;
 		specialities.add(spec);
 		Collections.sort(specialities);
@@ -132,7 +150,7 @@ public class SkillTrait extends Trait implements Comparable<SkillTrait> {
 	 * @return {@code true} if the element was removed, {@code false} if it didn't exist.
      */
 
-	public boolean removeSpeciality(SpecialityTrait spec) {
+	protected boolean removeSpeciality(SpecialityTrait spec) {
 		return specialities.remove(spec);
 	}
 
@@ -146,6 +164,12 @@ public class SkillTrait extends Trait implements Comparable<SkillTrait> {
 		return specialities;
 	}
 
+    @Override
+        public String valueToString() {
+            if (bonusValue != 0) return getValue() + " + " + bonusValue;
+            return getValue().toString();
+        }
+
 	/**
      * Compares this {@code SkillTrait} to the specified object.
 	 *
@@ -155,10 +179,24 @@ public class SkillTrait extends Trait implements Comparable<SkillTrait> {
      * @return  {@code true} if the given object represents a {@code SkillTrait}
      *          equivalent to this {@code SkillTrait}, {@code false} otherwise.
      */
-	public boolean equals(Object anObject) {
-		SkillTrait skillTrait = (SkillTrait)anObject;
-		return type.equals(skillTrait.getSkillType()) && getName().equals(skillTrait.getName());
-	}
+    @Override
+    public boolean equals(Object anObject) {
+        if (this == anObject) return true;
+        if (anObject instanceof SkillTrait) {
+            SkillTrait skillTrait = (SkillTrait)anObject;
+            return type.equals(skillTrait.getSkillType()) &&
+                    getName().equals(skillTrait.getName());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 17 * hash + (this.type != null ? this.type.hashCode() : 0);
+        hash = 17 * hash + (getName() != null ? getName().hashCode() : 0);
+        return hash;
+    }
 
 	/**
 	 * Compares two skills.
@@ -181,8 +219,9 @@ public class SkillTrait extends Trait implements Comparable<SkillTrait> {
 	 * @see		SkillType#compareTo(SkillType)
 	 */
 
-	public int compareTo(SkillTrait skillTrait) {
-		if (type.equals(skillTrait.getSkillType())) return getName().compareTo(skillTrait.getName());
-		return type.compareTo(skillTrait.getSkillType());
-	}
+    @Override
+    public int compareTo(SkillTrait skillTrait) {
+        if (type.equals(skillTrait.getSkillType())) return getName().compareTo(skillTrait.getName());
+	return type.compareTo(skillTrait.getSkillType());
+    }
 }

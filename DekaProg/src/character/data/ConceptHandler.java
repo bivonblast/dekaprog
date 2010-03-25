@@ -1,196 +1,69 @@
 package character.data;
 
 /**
- * Class for concept representation.
+ * Class for keeping track of the character concept.
  *
  * @author      Jonas Frogvall
  * @version     %I%, %G%
  * @since       1.6
  */
 
-public class ConceptHandler {
-	/**
-	* The {@code boolean} representing the male gender.
-	*/
-	public static final boolean GENDER_MALE	= true;
-
-	/**
-	* The {@code boolean} representing the female gender.
-	*/
-	public static final boolean GENDER_FEMALE = false;
-
-	//variabler
-	private String	name;
-	private String	concept;
-	private String	campaign;
-	private boolean	gender;
-	private int		age;
-	private String	appearance;
-	private String	quote;
-
-	/**
-     * Initiates a new {@code ConceptHandler} with the specified character name, concept, campaign name, gender, age, appearance and quote.
-	 *
-	 * @param  name			The name of the character.
-	 *
-	 * @param  concept		The concept for the character.
-	 *
-	 * @param  campaign		The name for the campaign in which the character will be played.
-	 *
-	 * @param  gender		The gender of the character.
-	 *
-	 * @param  age			The age of the character.
-	 *
-	 * @param  appearance	The description of the character's appearance.
-	 *
-	 * @param  quote		The quote of the character.
+public class ConceptHandler extends TraitHandler<ConceptTrait>{
+    /**
+     * Initiates a new, empty {@code ConceptHandler}.
      */
-	public ConceptHandler(String name, String concept, String campaign, boolean gender, int age, String appearance, String quote) {
-		this.name		= name;
-		this.concept	= concept;
-		this.campaign	= campaign;
-		this.gender		= gender;
-		this.age		= age;
-		this.appearance	= appearance;
-		this.quote		= quote;
-	}
+    public ConceptHandler() {
+	super();
+    }
 
-	/**
-     * Initiates a new {@code ConceptHandler} with the gender set to female, the age set to {@code 0}, and the rest of the concept left blank.
+    /**
+     * Adds a new {@code ConceptTrait} to the {@code ConceptHandler}, given
+     * that is deosn't already exist.
+     * @param traitName The name of the new {@code ConceptTrait}.
+     * @param traitValue The {@code String} value of the new {@code ConceptTrait}.
+     * @return {@code true} if the {@code ConceptTrait} was added, {@code false}
+     * if it already existed.
      */
-	public ConceptHandler() {
-		name		= "";
-		concept		= "";
-		campaign	= "";
-		gender		= GENDER_FEMALE;
-		age			= 0;
-		appearance	= "";
-		quote		= "";
-	}
+    public boolean addConceptTrait(String traitName, String traitValue) {
+        for (ConceptTrait ct : this) {
+            if (ct.getName().equalsIgnoreCase(traitName)) return false;
+        }
+        add(new ConceptTrait(traitName, traitValue));
+        return true;
+    }
 
-	/**
-     * Returns the character's name.
-	 *
-	 * @return the character's name.
+    /**
+     * Removes the {@code ConceptTrait} with the specified name from the
+     * {@code ConceptHandler}, given that it exists.
+     * @param traitName The name of the {@code ConceptTrait} to be removed.
+     * @return {@code true} if the {@code ConceptTrait} was succesfully removed,
+     * {@code false} if it didn't exist.
      */
-	public String getName() {
-		return name;
-	}
+    public boolean removeConceptTrait(String traitName) {
+        for (int i = 0; i < size(); i++) {
+            if (get(i).getName().equalsIgnoreCase(traitName)) {
+                remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-     * Returns the character's concept.
-	 *
-	 * @return the character's concept.
+    /**
+     * Sets a value to the {@code ConceptTrait} with the specified name, given
+     * that it exists.
+     * @param traitName The name of the {@code ConceptTrait} to be altered.
+     * @param traitValue The new value of the {@code ConceptTrait}.
+     * @return @return {@code true} if the {@code ConceptTrait} was succesfully
+     * altered, {@code false} if it didn't exist.
      */
-	public String getConcept() {
-		return concept;
-	}
-
-	/**
-     * Returns the name of the campaign the character is participating in.
-	 *
-	 * @return the name of the campaign the character is participating in.
-     */
-	public String getCampaign() {
-		return campaign;
-	}
-
-	/**
-     * Returns the character's gender.
-	 *
-	 * @return the character's gender as a boolean.
-     */
-	public boolean getGender() {
-		return gender;
-	}
-
-	/**
-     * Returns the character's age.
-	 *
-	 * @return the character's age.
-     */
-	public int getAge() {
-		return age;
-	}
-
-	/**
-     * Returns the description of the character's appearance.
-	 *
-	 * @return the description of the character's appearance.
-     */
-	public String getApperance() {
-		return appearance;
-	}
-
-	/**
-     * Returns the quote of the character.
-	 *
-	 * @return the quote of the character.
-     */
-	public String getQuote() {
-		return quote;
-	}
-
-	/**
-     * Sets the name of the character.
-     *
-     * @param name  The name of the character.
-     */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-     * Sets the concept of the character.
-     *
-     * @param concept  The concept of the character.
-     */
-	public void setConcept(String concept) {
-		this.concept = concept;
-	}
-
-	/**
-     * Sets the name of the campaign the character is participating in.
-     *
-     * @param campaign  The name of the campaign the character is participating in.
-     */
-	public void setCampaign(String campaign) {
-		this.campaign = campaign;
-	}
-
-	/**
-     * Sets the gender of the character.
-     *
-     * @param gender  The gender of the character.
-     */
-	public void setGender(boolean gender) {
-		this.gender = gender;
-	}
-
-	/**
-     * Sets the age of the character.
-     *
-     * @param age  The age of the character.
-     */
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	/**
-     * Sets the description of of the character's appearance.
-     *
-     * @param appearance  The description of of the character's appearance.
-     */
-	public void setAppearance(String appearance) {
-		this.appearance = appearance;
-	}
-
-	/**
-     * Sets the quote of the character.
-     *
-     * @param quote  The quote of the character.
-     */
-	public void setQuote(String quote) {
-		this.quote = quote;
-	}
+    public boolean setConceptTraitValue(String traitName, String traitValue) {
+        for (ConceptTrait ct : this) {
+            if (ct.getName().equalsIgnoreCase(traitName)) {
+                ct.setValue(traitValue);
+                return true;
+            }
+        }
+        return false;
+    }
 }
