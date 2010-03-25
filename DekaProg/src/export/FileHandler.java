@@ -67,7 +67,7 @@ public class FileHandler extends ExportImportHandler{
     @Override
     public boolean writeCharacter(DekaederCharacter character, String username) {
         try {
-            currentFile = new File(new URI(location + character.getConceptHandler().getName().replaceAll(" ", "%20") + ".dkp"));
+            currentFile = new File(new URI(location + character.getConceptHandler().getTrait("Namn").valueToString().replaceAll(" ", "%20") + ".dkp"));
             currentFileWriter = new BufferedWriter(new FileWriter(currentFile));
 
             //currentFileWriter.write(character);

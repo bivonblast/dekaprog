@@ -87,7 +87,7 @@ public class WikiHandler extends ExportImportHandler{
     @Override
     public boolean writeCharacter(DekaederCharacter character, String username) {
         try {
-            curArticle.setText(character.getConceptHandler().getName());
+            curArticle.setText(character.getConceptHandler().getTrait("Namn").valueToString());
             //wikiConnection.performAction(new PostModifyContent(wikiConnection, curArticle));
             wikiConnection.writeContent(curArticle);
             return true;

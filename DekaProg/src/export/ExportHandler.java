@@ -23,8 +23,8 @@ abstract public class ExportHandler {
     /**
      * This function saves a character to the database.
      *
-     * @param characterName Name of the character to save.
-     * @param character The data to be saved.
+     * @param character The data
+     * @param username The name of the user.
      * @return Returns true if it was successfully saved.
      */
     abstract public boolean writeCharacter(DekaederCharacter character, String username);
