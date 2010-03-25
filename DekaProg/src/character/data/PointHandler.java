@@ -223,6 +223,6 @@ public class PointHandler extends TraitHandler<PointTrait> {
         }*/
 
 	private void updateVeteran() {
-            veteran = experience + spent - start;
+            veteran = experience + (spent - start >= 0 ? spent - start : 0);
 	}
 }
