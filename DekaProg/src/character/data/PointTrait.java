@@ -30,6 +30,10 @@ public class PointTrait extends Trait<Integer> {
             super(name, value);
 	}
 
+    /**
+     * Returns the string representation of this trait's value.
+     * @return the value as a String.
+     */
     @Override
         public String valueToString() {
             return getValue().toString();
