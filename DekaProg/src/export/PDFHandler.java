@@ -227,8 +227,8 @@ public class PDFHandler extends ExportHandler {
         return abilities[ability];
     }
 
-    private Vector<TextPositionInPdf> getTraitToPdf(TraitHandler curHandler){
-        Vector<Trait> allTraits = curHandler.getTraits();
+    private Vector<TextPositionInPdf> getTraitToPdf(TraitHandler<? extends Trait> curHandler){
+        Vector<? extends Trait> allTraits = curHandler.getTraits();
         Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
         BufferedReader currentFileReader = null;
         try {
