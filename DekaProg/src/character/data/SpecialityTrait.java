@@ -84,7 +84,8 @@ public class SpecialityTrait extends Trait<Integer> implements Comparable<Specia
 	public boolean equals(Object anObject) {
             if (this == anObject) return true;
             if (anObject instanceof SpecialityTrait)
-		return getName().equals(((SpecialityTrait)anObject).getName());
+		return ((getName().equals(((SpecialityTrait)anObject).getName()))
+                        && (getSkill().equals(((SpecialityTrait)anObject).getSkill())));
             return false;
 	}
 

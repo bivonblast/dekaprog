@@ -12,14 +12,6 @@ import java.util.Vector;
 public abstract class TraitHandler<E extends Trait> extends Vector<E> {
 
     /**
-     * Initiates a new, empty {@code TraitHandler}.
-     */
-    protected TraitHandler() {
-        super();
-    }
-
-
-    /**
      * Returns a generic {@code Trait} represented by the specific name, stored
      * in this handler.
      * @param traitName The name of the desired Trait.
