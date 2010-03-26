@@ -164,6 +164,18 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
 		return specialities;
 	}
 
+        public boolean isPhysical() {
+            return type.isPhysical();
+        }
+
+        public boolean isMental() {
+            return type.isMental();
+        }
+
+        public boolean isSocial() {
+            return type.isSocial();
+        }
+
     @Override
         public String valueToString() {
             if (bonusValue != 0) return getValue() + " + " + bonusValue;
@@ -184,8 +196,7 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
         if (this == anObject) return true;
         if (anObject instanceof SkillTrait) {
             SkillTrait skillTrait = (SkillTrait)anObject;
-            return type.equals(skillTrait.getSkillType()) &&
-                    getName().equals(skillTrait.getName());
+            return getName().equals(skillTrait.getName());
         }
         return false;
     }
@@ -193,7 +204,6 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 17 * hash + (this.type != null ? this.type.hashCode() : 0);
         hash = 17 * hash + (getName() != null ? getName().hashCode() : 0);
         return hash;
     }

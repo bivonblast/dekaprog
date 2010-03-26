@@ -98,7 +98,7 @@ public class PointHandler extends TraitHandler<PointTrait> {
      * @return @return {@code true} if the {@code PointTrait} was succesfully
      * altered, {@code false} if it didn't exist.
      */
-	public boolean setConceptTraitValue(String traitName, int traitValue) {
+	public boolean setPointTraitValue(String traitName, int traitValue) {
             for (PointTrait pt : this) {
                 if (pt.getName().equalsIgnoreCase(traitName)) {
                     pt.setValue(traitValue);
@@ -116,7 +116,7 @@ public class PointHandler extends TraitHandler<PointTrait> {
      * @return @return {@code true} if the {@code PointTrait} was succesfully
      * altered, {@code false} if it didn't exist.
      */
-	public boolean addToConceptTraitValue(String traitName, int traitValue) {
+	public boolean addToPointTraitValue(String traitName, int traitValue) {
             for (PointTrait pt : this) {
                 if (pt.getName().equalsIgnoreCase(traitName)) {
                     pt.setValue(pt.getValue().intValue() + traitValue);
