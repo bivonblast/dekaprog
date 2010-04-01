@@ -48,6 +48,7 @@ public class PDFHandler extends ExportHandler {
     public URI temp;
 
     private float yIncrease = 0.0f;
+    private float indent = 0.0f;
     private String username;
     private DekaederCharacter character;
 
@@ -59,6 +60,7 @@ public class PDFHandler extends ExportHandler {
     public PDFHandler(String location){
         super(location);
         this.yIncrease = 11.3f;  //Cheating! Should be handled in configfile!
+        this.indent = 13f;
         this.character = new DekaederCharacter(new ConceptHandler(), new PointHandler(0), new SkillHandler(), new SpecialityHandler());
     }
 
@@ -359,11 +361,14 @@ public class PDFHandler extends ExportHandler {
         Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
         int i = 0;
         String curName;
+        double curX, curLength;
         for (SkillTrait curTrait : allTraits) {
             curName = curTrait.getName();
+            curX = curBas.getX();
+            curLength = curBas.getLength();
             if (curName.contains(":")){
                 String name = curName.substring(0, curName.indexOf(":"));
-                curName = "   " + curName.substring(curName.indexOf(":")+1, curName.length());
+                curName = curName.substring(curName.indexOf(":")+1, curName.length());
                 boolean entry = false;
                 for(TextPositionInPdf curText : resultingText){
                     if(curText.getText().equals(name)){
@@ -373,9 +378,10 @@ public class PDFHandler extends ExportHandler {
                 if(!entry){
                     resultingText.add(new TextPositionInPdf(name, curBas.getX(), curBas.getY()-(i++)*yIncrease, curBas.getLength(), curBas.getAlignment()));
                 }
-
+                curX = curX + indent;
+                curLength = curLength - indent;
             }
-            resultingText.add(new TextPositionInPdf(curName, curBas.x, curBas.getY()-(i++)*yIncrease, curBas.getLength(), curBas.getAlignment()));
+            resultingText.add(new TextPositionInPdf(curName, curX, curBas.getY()-(i++)*yIncrease, curLength, curBas.getAlignment()));
             resultingText.add(new TextPositionInPdf(curTrait.valueToString().trim(), curValueBas.x, curValueBas.getY()-(i-1)*yIncrease, curValueBas.getLength(), curValueBas.getAlignment()));
             if(i >= maxImports){
                 System.out.println("Not enough space!");
