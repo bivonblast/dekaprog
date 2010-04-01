@@ -7,6 +7,7 @@ import character.data.SkillHandler;
 import character.data.SkillTrait;
 import character.data.SkillType;
 import character.data.SpecialityHandler;
+import character.data.SpecialityTrait;
 import character.data.Trait;
 import character.data.TraitHandler;
 import com.itextpdf.text.Chunk;
@@ -47,8 +48,9 @@ public class PDFHandler extends ExportHandler {
     /** Temp poster. */
     public URI temp;
 
+    private float skillIncrease = 0.0f;
     private float yIncrease = 0.0f;
-    private float indent = 0.0f;
+    private float skillIndent = 0.0f;
     private String username;
     private DekaederCharacter character;
 
@@ -59,8 +61,9 @@ public class PDFHandler extends ExportHandler {
      */
     public PDFHandler(String location){
         super(location);
-        this.yIncrease = 11.3f;  //Cheating! Should be handled in configfile!
-        this.indent = 13f;
+        this.skillIncrease = 11.3f;  //Cheating! Should be handled in configfile!
+        this.skillIndent = 13f;
+        this.yIncrease = 14.0f;
         this.character = new DekaederCharacter(new ConceptHandler(), new PointHandler(0), new SkillHandler(), new SpecialityHandler());
     }
 
@@ -165,9 +168,10 @@ public class PDFHandler extends ExportHandler {
         allText.addAll(getTraitToPdf(character.getConceptHandler()));
         // Poäng
         allText.addAll(getTraitToPdf(character.getPointHandler()));
-        allText.addAll(getTraitToPdf(character.getSkillHandler()));
-
         // Färdigheter
+        allText.addAll(getTraitToPdf(character.getSkillHandler()));
+        //Specialiteter
+        allText.addAll(getTraitToPdf(character.getSpecialityHandler()));
         BaseFont bf
                 = BaseFont.createFont(BaseFont.HELVETICA, "", BaseFont.EMBEDDED);
         under.beginText();
@@ -278,19 +282,56 @@ public class PDFHandler extends ExportHandler {
             }
             TextPositionInPdf menBas = new TextPositionInPdf(mentala, "MentalaFärdigheter");
             TextPositionInPdf menValueBas = new TextPositionInPdf(mentalaV, "MentalaVärden");
-            double maxMental = menValueBas.getLength();
+            double maxMental = 26;
             TextPositionInPdf fysBas = new TextPositionInPdf(fysiska, "FysiskaFärdigheter");
             TextPositionInPdf fysValueBas = new TextPositionInPdf(fysiskaV, "FysiskaVärden");
-            double maxFysisk = menValueBas.getLength();
+            double maxFysisk = 26;
             TextPositionInPdf socBas = new TextPositionInPdf(sociala, "SocialaFärdigheter");
             TextPositionInPdf socValueBas = new TextPositionInPdf(socialaV, "SocialaVärden");
-            double maxSocial = menValueBas.getLength();
+            double maxSocial = 26;
             Vector<SkillTrait> menSkills = curHandler.getMentalSkills();
             Vector<SkillTrait> fysSkills = curHandler.getPhysicalSkills();
             Vector<SkillTrait> socSkills = curHandler.getSocialSkills();
             resultingText.addAll( extractAllLines(menSkills, menBas, menValueBas, maxMental));
             resultingText.addAll( extractAllLines(fysSkills, fysBas, fysValueBas, maxFysisk));
             resultingText.addAll( extractAllLines(socSkills, socBas, socValueBas, maxSocial));
+
+            return resultingText;
+        } catch (IOException ex) {
+                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (URISyntaxException ex) {
+            Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Extract all skills from curHandler and converts them<br>
+     * to @link TextPositionInPdf and put into a Vector.
+     * @param curHandler the current @link SkillHandler keping all the Skills.
+     * @return Vector with elements of @link TextPositionInPdf
+     */
+    private Vector<TextPositionInPdf> getTraitToPdf(SpecialityHandler curHandler){
+        Vector<SpecialityTrait> allTraits = curHandler.getTraits();
+        Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
+        BufferedReader currentFileReader = null;
+        try {
+            File conceptFile = new File(new URI(location + "rollf.cfg"));
+            currentFileReader = new BufferedReader(new FileReader(conceptFile));
+            String bufLine, spec = null;
+            while ((bufLine = currentFileReader.readLine()) != null) {
+                if(bufLine.contains("Specialiseringar")){
+                    spec = bufLine;
+                }
+            }
+            currentFileReader.close();
+            if(spec.isEmpty()){
+                throw new NullPointerException("Didn't contain anything.");
+            }
+            TextPositionInPdf specBas = new TextPositionInPdf(spec, "Specialiseringar");
+            double maxSpec = 6;
+            
+            resultingText.addAll( extractAllLines(allTraits, specBas, maxSpec));
 
             return resultingText;
         } catch (IOException ex) {
@@ -376,13 +417,55 @@ public class PDFHandler extends ExportHandler {
                     }
                 }
                 if(!entry){
-                    resultingText.add(new TextPositionInPdf(name, curBas.getX(), curBas.getY()-(i++)*yIncrease, curBas.getLength(), curBas.getAlignment()));
+                    resultingText.add(new TextPositionInPdf(name, curBas.getX(), curBas.getY()-(i++)*skillIncrease, curBas.getLength(), curBas.getAlignment()));
                 }
-                curX = curX + indent;
-                curLength = curLength - indent;
+                curX = curX + skillIndent;
+                curLength = curLength - skillIndent;
             }
-            resultingText.add(new TextPositionInPdf(curName, curX, curBas.getY()-(i++)*yIncrease, curLength, curBas.getAlignment()));
-            resultingText.add(new TextPositionInPdf(curTrait.valueToString().trim(), curValueBas.x, curValueBas.getY()-(i-1)*yIncrease, curValueBas.getLength(), curValueBas.getAlignment()));
+            resultingText.add(new TextPositionInPdf(curName, curX, curBas.getY()-(i++)*skillIncrease, curLength, curBas.getAlignment()));
+            resultingText.add(new TextPositionInPdf(curTrait.valueToString().trim(), curValueBas.x, curValueBas.getY()-(i-1)*skillIncrease, curValueBas.getLength(), curValueBas.getAlignment()));
+            if(i >= maxImports){
+                System.out.println("Not enough space!");
+                break;
+            }
+        }
+        return resultingText;
+    }
+
+     /**
+     * Extract all the Lines needed for the Skills. Add Input for Skills and Skillvalues.<br>
+     * Also creates extra rows for Common Skill-categories (Teknik: Vapen).
+     * @param allTraits allTraits to be extracted.
+     * @param curBas the information about where to put the skills
+     * @param curValueBas the information where to put the value of the skill
+     * @param maxImports Maximum number of placements
+     * @return Vector containing all the elements to be added to the PDF.
+     */
+    private Vector<TextPositionInPdf> extractAllLines(Vector<SpecialityTrait> allTraits, TextPositionInPdf curBas, double maxImports) {
+        Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
+        int i = 0;
+        String curName, bas, concatName;
+        double curX, curLength;
+        boolean entry;
+        for (SpecialityTrait curTrait : allTraits) {
+            curName = curTrait.getName();
+            curX = curBas.getX();
+            curLength = curBas.getLength();
+            bas = curTrait.getSkill().getName();
+            curName = curTrait.getName();
+            if(!curTrait.valueToString().equals("2")){
+                curName = curName + "(" + curTrait.valueToString() + ")";
+            }
+            entry = false;
+            for(TextPositionInPdf curText : resultingText){
+                if(curText.getText().substring(0, curText.getText().lastIndexOf(":")).equals(bas)){
+                    curText.setText(curText.getText() + ", " + curName);
+                    entry = true;
+                    break;
+                }
+            }if(!entry){
+                resultingText.add(new TextPositionInPdf(bas + ": " + curName, curBas.getX(), curBas.getY()-(i++)*yIncrease, curBas.getLength(), curBas.getAlignment()));
+            }
             if(i >= maxImports){
                 System.out.println("Not enough space!");
                 break;
