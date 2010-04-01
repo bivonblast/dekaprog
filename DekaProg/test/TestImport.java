@@ -16,7 +16,7 @@ public class TestImport {
     public static void main(String[] args) {
         ExportHandler pdfTest = new PDFHandler("file:///C:/DekaProg/");
         ConceptHandler conceptHandler = new ConceptHandler();
-        conceptHandler.addConceptTrait("Namn", "Levan Darish");
+        conceptHandler.addConceptTrait("Namn", "Levan 'Face' Darish");
         conceptHandler.addConceptTrait("Kön", "Man");
         conceptHandler.addConceptTrait("Ålder", "21 år");
         conceptHandler.addConceptTrait("Koncept", "Karisma");
@@ -51,6 +51,19 @@ public class TestImport {
         skillHandler.addSkillTrait("Integritet", SkillType.newSocialSkillType(), 5);
         skillHandler.addSkillTrait("Mod", SkillType.newSocialSkillType(), 5, 5);
         skillHandler.addSkillTrait("Skådespeleri", SkillType.newSocialSkillType(), 2);
+        skillHandler.addSkillTrait("Språk: Basic", SkillType.newSocialSkillType(), 10);
+        skillHandler.addSkillTrait("Språk: Devaron", SkillType.newSocialSkillType(), 1);
+        skillHandler.addSkillTrait("Språk: Sullust", SkillType.newSocialSkillType(), 3);
+        skillHandler.addSkillTrait("Världsvana: Kuat", SkillType.newSocialSkillType(), 5);
+        skillHandler.addSkillTrait("Världsvana: Imperiet", SkillType.newSocialSkillType(), 3);
+        skillHandler.addSkillTrait("Världsvana: KSF Obeveklig", SkillType.newSocialSkillType(), 3);
+        skillHandler.addSkillTrait("Världsvana: Rebellalliansen", SkillType.newSocialSkillType(), 5);
+        skillHandler.addSkillTrait("Världsvana: Pirater", SkillType.newSocialSkillType(), 2);
+        skillHandler.addSkillTrait("Världsvana: Koriska flottan", SkillType.newSocialSkillType(), 5);
+        skillHandler.addSkillTrait("Världsvana: Kori", SkillType.newSocialSkillType(), 2);
+        skillHandler.addSkillTrait("Världsvana: Angriparkunskap", SkillType.newSocialSkillType(), 3);
+        skillHandler.addSkillTrait("Världsvana: Sepan", SkillType.newSocialSkillType(), 1);
+        skillHandler.addSkillTrait("Världsvana: Sepanska Flottan", SkillType.newSocialSkillType(), 2);
         skillHandler.addSkillTrait("Akademisk Kunskap: Astrogation", SkillType.newMentalSkillType(), 4);
         skillHandler.addSkillTrait("Akademisk Kunskap: Galaktografi", SkillType.newMentalSkillType(), 2);
         skillHandler.addSkillTrait("Akademisk Kunskap: Medicin", SkillType.newMentalSkillType(), 1);
