@@ -8,14 +8,16 @@ public class DekaederCharacter {
 	private PointHandler        pointHandler;
         private SkillHandler        skillHandler;
         private SpecialityHandler   specialityHandler;
+        private HookHandler         hookHandler;
 
 	public DekaederCharacter(ConceptHandler conceptHandler, 
             PointHandler pointHandler, SkillHandler skillHandler,
-            SpecialityHandler specialityHandler) {
+            SpecialityHandler specialityHandler, HookHandler hookHandler) {
             this.conceptHandler = conceptHandler;
             this.pointHandler = pointHandler;
             this.skillHandler = skillHandler;
             this.specialityHandler = specialityHandler;
+            this.hookHandler = hookHandler;
 	}
 
 	public ConceptHandler getConceptHandler() {
@@ -32,5 +34,9 @@ public class DekaederCharacter {
 
         public SpecialityHandler getSpecialityHandler() {
             return specialityHandler;
+        }
+
+        public HookHandler getHookHandler() {
+            return hookHandler;
         }
 }
