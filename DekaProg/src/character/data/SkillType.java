@@ -88,7 +88,7 @@ public class SkillType implements Comparable<SkillType> {
 	 *
 	 * @return {@code true} if this {@code SkillType} represents a physical skill, {@code false} otherwise.
      */
-	public boolean isPhysical() {
+	protected boolean isPhysical() {
 		return type == PHYSICAL;
 	}
 
@@ -97,7 +97,7 @@ public class SkillType implements Comparable<SkillType> {
 	 *
 	 * @return {@code true} if this {@code SkillType} represents a social skill, {@code false} otherwise.
      */
-	public boolean isSocial() {
+	protected boolean isSocial() {
 		return type == SOCIAL;
 	}
 
@@ -106,7 +106,7 @@ public class SkillType implements Comparable<SkillType> {
 	 *
 	 * @return {@code true} if this {@code SkillType} represents a mental skill, {@code false} otherwise.
      */
-	public boolean isMental() {
+	protected boolean isMental() {
 		return type == MENTAL;
 	}
 
