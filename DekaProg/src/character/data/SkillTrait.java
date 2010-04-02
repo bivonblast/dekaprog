@@ -11,10 +11,9 @@ import java.util.Collections;
  * @since       1.6
  */
 
-public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait> {
+public class SkillTrait extends Trait<SkillValue> implements Comparable<SkillTrait> {
 	//variabler
 	private SkillType type;
-	private int bonusValue;
 	private Vector<SpecialityTrait> specialities;
 
 	/**
@@ -25,9 +24,8 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
 	 * @param  type		The type of the {@code SkillTrait}.
      */
 	public SkillTrait(String name, SkillType type) {
-		super(name, 0);
+		super(name, new SkillValue());
 		this.type = type;
-		this.bonusValue = 0;
 		specialities = new Vector<SpecialityTrait>();
 	}
 
@@ -41,9 +39,8 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
          * @param  value	The value of the {@code SkillTrait}.
      */
 	public SkillTrait(String name, SkillType type, int value) {
-		super(name, value);
+		super(name, new SkillValue(value));
 		this.type = type;
-		this.bonusValue = 0;
 		specialities = new Vector<SpecialityTrait>();
 	}
         
@@ -59,9 +56,8 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
 	 * @param  bonusValue   The bonus value of the {@code SkillTrait}.
      */
 	public SkillTrait(String name, SkillType type, int value, int bonusValue) {
-		super(name, value);
+		super(name, new SkillValue(value, bonusValue));
 		this.type = type;
-		this.bonusValue = bonusValue;
 		specialities = new Vector<SpecialityTrait>();
 	}
 
@@ -89,7 +85,7 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
 	 * @return the bonus value of this {@code SkillTrait}.
      */
 	public int getBonusValue() {
-		return bonusValue;
+		return getValue().getBonusValue();
 	}
 
 	/**
@@ -98,8 +94,16 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
      * @param bonusValue	The bonus value to be set to this{@code SkillTrait}.
      */
 	public void setBonusValue(int bonusValue) {
-		this.bonusValue = bonusValue;
+		getValue().setBonusValue(bonusValue);
 	}
+
+        public int getSkillValue() {
+            return getValue().getSkillValue();
+        }
+
+        public void setSkillValue(int skillValue) {
+            getValue().setSkillValue(skillValue);
+        }
 
 	/**
      * Adds to the current bonus value of this {@code SkillTrait}.
@@ -108,21 +112,9 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
 	 *
 	 * @return the bonus value of this {@code SkillTrait}, after it has been updated.
      */
-	public int addBonusValue(int bonusValue) {
-		return (this.bonusValue += bonusValue);
+	public void addToBonusValue(int bonusValue) {
+		getValue().setBonusValue(getValue().getBonusValue() + bonusValue);
 	}
-
-	/**
-     * Substracts from the current bonus value of this {@code SkillTrait}.
-     *
-     * @param bonusValue	The value to be substracted from this {@code SkillTrait}.
-	 *
-	 * @return the bonus value of this {@code SkillTrait}, after it has been updated.
-     */
-	public int substractBonusValue(int bonusValue) {
-		return (this.bonusValue -= bonusValue);
-	}
-
 
 	/**
      * Adds a speciality to this {@code SkillTrait}, unless it already exists. Also sorts the
@@ -178,8 +170,7 @@ public class SkillTrait extends Trait<Integer> implements Comparable<SkillTrait>
 
     @Override
         public String valueToString() {
-            if (bonusValue != 0) return getValue() + " + " + bonusValue;
-            return getValue().toString();
+            return getValue().valueToString();
         }
 
 	/**

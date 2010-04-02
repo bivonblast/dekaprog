@@ -6,7 +6,6 @@
 package character.data;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Vector;
 
 /**
@@ -110,7 +109,7 @@ public class SkillHandler extends TraitHandler<SkillTrait> {
 	public boolean setSkillTraitValue(String traitName, int traitValue) {
             for (SkillTrait st : this) {
                 if (st.getName().equalsIgnoreCase(traitName)) {
-                    st.setValue(traitValue);
+                    st.setSkillValue(traitValue);
                     return true;
                 }
             }
@@ -138,7 +137,7 @@ public class SkillHandler extends TraitHandler<SkillTrait> {
 	public boolean addToSkillTraitValue(String traitName, int traitValue) {
             for (SkillTrait st : this) {
                 if (st.getName().equalsIgnoreCase(traitName)) {
-                    st.setValue(st.getValue().intValue() + traitValue);
+                    st.setSkillValue(st.getSkillValue() + traitValue);
                     return true;
                 }
             }
