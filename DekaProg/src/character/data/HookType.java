@@ -39,9 +39,9 @@ public class HookType implements Comparable<HookType> {
 
 
 	/**
-	 * Returns a incentive {@code HookType} singleton.
+	 * Returns an incentive {@code HookType} singleton.
 	 *
-	 * @return  a incentive {@code HookType} singleton.
+	 * @return  an incentive {@code HookType} singleton.
 	 */
 	public static synchronized HookType newIncentiveHookType() {
             if (incentive == null) {
@@ -63,9 +63,9 @@ public class HookType implements Comparable<HookType> {
 	}
 
 	/**
-	 * Returns a appearance {@code HookType} singleton.
+	 * Returns an appearance {@code HookType} singleton.
 	 *
-	 * @return  a appearance {@code HookType} singleton.
+	 * @return  an appearance {@code HookType} singleton.
 	 */
 	public static synchronized HookType newAppearanceHookType() {
             if (appearance == null) {
@@ -84,16 +84,16 @@ public class HookType implements Comparable<HookType> {
 	}
 
 	/**
-     * Checks whether this {@code HookType} is incentive or not.
+     * Checks whether this {@code HookType} is an incentive or not.
 	 *
-	 * @return {@code true} if this {@code HookType} represents a incentive hook, {@code false} otherwise.
+	 * @return {@code true} if this {@code HookType} represents an incentive hook, {@code false} otherwise.
      */
 	protected boolean isIncentive() {
 		return type == INCENTIVE;
 	}
 
 	/**
-     * Checks whether this {@code HookType} is weakness or not.
+     * Checks whether this {@code HookType} is a weakness or not.
 	 *
 	 * @return {@code true} if this {@code HookType} represents a weakness hook, {@code false} otherwise.
      */
@@ -102,9 +102,9 @@ public class HookType implements Comparable<HookType> {
 	}
 
 	/**
-     * Checks whether this {@code HookType} is appearance or not.
+     * Checks whether this {@code HookType} is an appearance or not.
 	 *
-	 * @return {@code true} if this {@code HookType} represents a appearance hook, {@code false} otherwise.
+	 * @return {@code true} if this {@code HookType} represents an appearance hook, {@code false} otherwise.
      */
 	protected boolean isAppearance() {
 		return type == APPEARANCE;
