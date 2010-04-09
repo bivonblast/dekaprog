@@ -1,5 +1,7 @@
 package character.data;
 
+import java.io.Serializable;
+
 /**
  * General stat representation.
  *
@@ -8,7 +10,7 @@ package character.data;
  * @since       1.6
  */
 
-public abstract class Trait<V> {
+public abstract class Trait<V> implements Serializable {
 	//variabler
 	private String	name;
 	private V	value;
