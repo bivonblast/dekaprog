@@ -40,7 +40,7 @@ public class HookHandler extends TraitHandler<HookTrait> {
         }
     }
 
-    public void setWeaknessalue(String weaknessValue) {
+    public void setWeaknessValue(String weaknessValue) {
         for (HookTrait ht : this) {
             if (ht.getName().equals("Svaghet")) ht.setValue(weaknessValue);
         }

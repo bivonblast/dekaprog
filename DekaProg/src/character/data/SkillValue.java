@@ -5,11 +5,13 @@
 
 package character.data;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Jonas
  */
-public class SkillValue {
+public class SkillValue implements Serializable {
     private int skillValue;
     private int bonusValue;
 

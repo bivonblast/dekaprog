@@ -1,5 +1,7 @@
 package character.data;
 
+import java.io.Serializable;
+
 /**
  * Class for determing skill type.
  *
@@ -8,7 +10,7 @@ package character.data;
  * @since       1.6
  */
 
-public class SkillType implements Comparable<SkillType> {
+public class SkillType implements Comparable<SkillType>, Serializable {
 	//variabler
 	/**
 	* The {@code int} representing a physical skill.
