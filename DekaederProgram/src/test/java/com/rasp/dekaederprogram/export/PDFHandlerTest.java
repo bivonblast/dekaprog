@@ -144,10 +144,12 @@ public class PDFHandlerTest extends TestCase {
         System.out.println("writeCharacter");
         String filePosition = "file:///C:/DekaProg/";
         ExportHandler pdfTest = new PDFHandler(filePosition);
-        boolean showValue = true;
         boolean expResult = true;
-        boolean result = pdfTest.writeCharacter(dekaederCharacter, "Testnamn", showValue);
+        boolean result = pdfTest.writeCharacter(dekaederCharacter, "Testnamn", true);
         assertEquals(expResult, result);
+        result = pdfTest.writeCharacter(dekaederCharacter, "Testnamn", false);
+        assertEquals(expResult, result);
+
     }
 
     /**
