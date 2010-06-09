@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : XML-template.xml
+    Created on : den 9 juni 2010, 21:04
+    Author     : MARTIN
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+    {|
+ <FÄRDIGHETER>
+     |<FYSISKF></FYSISKF>
+     |<FYSISKV></FYSISKV>
+     |-
+     |<SOCIALF></SOCIALF>
+     |<SOCIALV></SOCIALV>
+     |-
+     |<MENTALF></MENTALF>
+     |<MENTALV></MENTALV>
+     |-
+ </FÄRDIGHETER>
+ |}
+</root>
