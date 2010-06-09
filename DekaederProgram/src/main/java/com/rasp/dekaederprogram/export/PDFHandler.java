@@ -110,7 +110,7 @@ public class PDFHandler extends ExportHandler {
      * This is the first step in creating a new PDF.
      * @return true if created successfully
      */
-    public boolean createFile(boolean showValue){
+    private boolean createFile(boolean showValue){
         try{
             System.out.println("Starting creating \"" + result.getPath() + "\".");
 
@@ -153,7 +153,7 @@ public class PDFHandler extends ExportHandler {
      * @throws    DocumentException
      * @throws    IOException
      */
-    public void createPdf(String filename, boolean showValue)
+    private void createPdf(String filename, boolean showValue)
         throws IOException, DocumentException {
         Document document = new Document(PageSize.A4, 30, 30, 30, 30);
         PdfWriter writer = PdfWriter.getInstance(document,
@@ -198,7 +198,7 @@ public class PDFHandler extends ExportHandler {
      * @param width the width of the rectangle
      * @param height the height of the rectangle
      */
-    public static void drawRectangle(PdfContentByte content, float width, float height) {
+    private static void drawRectangle(PdfContentByte content, float width, float height) {
         content.saveState();
         PdfGState state = new PdfGState();
         state.setFillOpacity(0.6f);
