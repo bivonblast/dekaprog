@@ -21,6 +21,7 @@ public class PointHandler extends TraitHandler<PointTrait> {
 	 * @param  start	The number of starting points for the character.
      */
 	public PointHandler(int start) {
+            super();
             this.start = start;
             experience = 0;
             spent = 0;
