@@ -13,12 +13,12 @@ import java.io.Serializable;
 public class DekaederCharacter implements Serializable {
 	//variabler
         private TraitHandler<? extends Trait>[]      traitHandlers;
-	private ConceptHandler      conceptHandler;
-	private PointHandler        pointHandler;
-        private SkillHandler        skillHandler;
-        private SpecialityHandler   specialityHandler;
-        private HookHandler         hookHandler;
-        private AdvantageHandler    advantageHandler;
+	private int conceptIndex = -1;
+	private int pointIndex = -1;
+        private int skillIndex = -1;
+        private int specialityIndex = -1;
+        private int hookIndex = -1;
+        private int advantageIndex = -1;
 
 	/*public DekaederCharacter(ConceptHandler conceptHandler,
             PointHandler pointHandler, SkillHandler skillHandler,
@@ -34,19 +34,20 @@ public class DekaederCharacter implements Serializable {
 
         public DekaederCharacter(TraitHandler<? extends Trait>... traitHandlers) {
             this.traitHandlers = traitHandlers;
-            for (TraitHandler th : traitHandlers) {
+            for (int i = 0; i < traitHandlers.length; i++) {
+                TraitHandler th = traitHandlers[i];
                 if (th instanceof ConceptHandler)
-                    conceptHandler = (ConceptHandler)th;
-                if (th instanceof PointHandler)
-                    pointHandler = (PointHandler)th;
-                if (th instanceof SkillHandler)
-                    skillHandler = (SkillHandler)th;
-                if (th instanceof SpecialityHandler)
-                    specialityHandler = (SpecialityHandler)th;
-                if (th instanceof HookHandler)
-                    hookHandler = (HookHandler)th;
-                if (th instanceof AdvantageHandler)
-                    advantageHandler = (AdvantageHandler)th;
+                    conceptIndex = i;
+                else if (th instanceof PointHandler)
+                    pointIndex = i;
+                else if (th instanceof SkillHandler)
+                    skillIndex = i;
+                else if (th instanceof SpecialityHandler)
+                    specialityIndex = i;
+                else if (th instanceof HookHandler)
+                    hookIndex = i;
+                else if (th instanceof AdvantageHandler)
+                    advantageIndex = i;
             }
         }
 
@@ -55,26 +56,32 @@ public class DekaederCharacter implements Serializable {
         }
         
 	public ConceptHandler getConceptHandler() {
-            return conceptHandler;
+            if (conceptIndex == -1) return null;
+            return (ConceptHandler)(traitHandlers[conceptIndex]);
 	}
 
 	public PointHandler getPointHandler() {
-            return pointHandler;
+             if (pointIndex == -1) return null;
+            return (PointHandler)(traitHandlers[pointIndex]);
 	}
 
         public SkillHandler getSkillHandler() {
-            return skillHandler;
+             if (skillIndex == -1) return null;
+            return (SkillHandler)(traitHandlers[skillIndex]);
         }
 
         public SpecialityHandler getSpecialityHandler() {
-            return specialityHandler;
+            if (specialityIndex == -1) return null;
+            return (SpecialityHandler)(traitHandlers[specialityIndex]);
         }
 
         public HookHandler getHookHandler() {
-            return hookHandler;
+            if (hookIndex == -1) return null;
+            return (HookHandler)(traitHandlers[hookIndex]);
         }
 
         public AdvantageHandler getAdvantageHandler() {
-            return advantageHandler;
+            if (advantageIndex == -1) return null;
+            return (AdvantageHandler)(traitHandlers[advantageIndex]);
         }
 }
