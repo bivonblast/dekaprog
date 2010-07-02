@@ -12,6 +12,7 @@ import java.io.IOException;
  * @author MARTIN
  */
 public class DataObject extends Object{
+
     protected String chars;
     protected String name;
     protected int type;
@@ -67,8 +68,17 @@ public class DataObject extends Object{
                 System.err.println(e);
                 System.out.println(searchString);
             }
-            newString = searchString.substring(searchString.indexOf("{" + newName + "}")+newName.length()+2, searchString.indexOf("{/" + newName + "}"));
+            //If the next Area is a loop, then
+            if(nextAreaIsALoop(searchString)){
+                return new LoopObject(insideArea(LoopObject.STARTIDENTIFIER, searchString),
+                        insideArea(LoopObject.STOPIDENTIFIER, searchString),
+                        insideArea("/" + LoopObject.STARTIDENTIFIER, LoopObject.STOPIDENTIFIER, searchString)
+                        );
+            }else{
+                newString = searchString.substring(searchString.indexOf("{" + newName + "}")+newName.length()+2, searchString.indexOf("{/" + newName + "}"));
+            }
         }
+        //Borde kolla om det inte blir något objekt.
         return new MetaObject(newName, newString);
     }
 
@@ -91,6 +101,26 @@ public class DataObject extends Object{
         }
     }
 
+    private static String insideArea(final String identifier, String context){
+        return context.substring(context.indexOf("{" + identifier + "}")+identifier.length()+2, context.indexOf("{/" + identifier + "}"));
+    }
+
+    private static String insideArea(final String startIdentifier, final String stopIdentifier, String context){
+        return context.substring(context.indexOf("{" + startIdentifier + "}")+startIdentifier.length()+2, context.indexOf("{" + stopIdentifier + "}"));
+    }
+
+    //TODO!!! Lägg in fler checkar för att det är en loop som kommer härnäst
+    /**
+     *
+     */
+    private static boolean nextAreaIsALoop(String searchString) {
+        try{
+            return getNextAreaName(searchString).equals(LoopObject.STARTIDENTIFIER);
+        }catch(IOException e){
+            //Borde kanske lägga till mer problem här...
+            return false;
+        }
+    }
 
 //    public static MetaObject createMetaObjectFromFirstTimeOccurrence(String searchString, DataObject tmpObject){
 //        int begin = searchString.indexOf(tmpObject.getBeginSearchName())+tmpObject.getBeginSearchName().length();

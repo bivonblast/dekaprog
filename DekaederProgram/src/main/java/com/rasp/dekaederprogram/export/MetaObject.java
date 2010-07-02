@@ -112,7 +112,7 @@ public class MetaObject extends DataObject{
                 String startSlinga = chars.substring(chars.indexOf(STARTSLINGA)+STARTSLINGA.length(), chars.indexOf(STARTSLINGAEND));
                 String stopSlinga = chars.substring(chars.indexOf(STOPSLINGA)+STOPSLINGA.length(), chars.indexOf(STOPSLINGAEND));
                 String insideLoop = chars.substring(chars.indexOf(STARTSLINGAEND)+STARTSLINGAEND.length(), chars.indexOf(STOPSLINGA));
-                SlingaObject addSlinga = new SlingaObject(startSlinga, stopSlinga, insideLoop);
+                LoopObject addSlinga = new LoopObject(startSlinga, stopSlinga, insideLoop);
                 //Skapa slinga
                 //Red ut begreppen med hur man läser av en färdighet i en slinga.
             }else{
