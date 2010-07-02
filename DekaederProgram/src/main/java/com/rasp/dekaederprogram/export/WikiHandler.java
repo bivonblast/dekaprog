@@ -5,18 +5,16 @@ import com.rasp.dekaederprogram.character.data.SkillHandler;
 import com.rasp.dekaederprogram.character.data.SkillTrait;
 import com.rasp.dekaederprogram.character.data.SkillType;
 import com.rasp.dekaederprogram.character.data.TraitHandler;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.jwbf.core.actions.util.ActionException;
 import net.sourceforge.jwbf.core.actions.util.ProcessException;
-import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
 import net.sourceforge.jwbf.core.contentRep.Article;
 import net.sourceforge.jwbf.core.contentRep.SimpleArticle;
+import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
 
 
 
@@ -69,12 +67,13 @@ public class WikiHandler extends ExportImportHandler{
      */
     public boolean connect(String username, String password) {
         try {
-            wikiConnection = new MediaWikiBot("http://wiki.raspare.se/");//new URL(location));
+            wikiConnection = new MediaWikiBot("http://wiki.raspare.se/"); //new URL(location));
             wikiConnection.login(username, password);
             return true;
+
         } catch (ActionException ex) {
             Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) { 
+        } catch (MalformedURLException ex) {
             Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -86,11 +85,22 @@ public class WikiHandler extends ExportImportHandler{
 
     public DekaederCharacter readCharacter(String characterName, String characterTemplate) {
         try {
-            curTemplate = wikiConnection.readContent(characterTemplate);
-            curArticle = wikiConnection.readContent(characterName);
-            ArrayList<MetaObject> allAreas = dividePageIntoAreas(curTemplate);
+            String text;
+            if(characterTemplate.startsWith("file://C")){
+                FileHandler fileHandler = new FileHandler(characterTemplate);
+                text = fileHandler.readCharacter(characterName, SHOWVALUE);
+                System.out.println(curTemplate);
+            }else{
+                curTemplate = wikiConnection.readContent(characterTemplate);
+                curArticle = wikiConnection.readContent(characterName);
+                text = curArticle.getText();
+            }
+
+            ArrayList<MetaObject> allAreas = dividePageIntoAreas(text);
 //            ArrayList<TraitHandler> allTraits = new ArrayList<TraitHandler>();
+            System.out.println("Redo att skriva ut alla objekt");
             for(MetaObject curArea : allAreas){
+                System.out.println(curArea.getName());
                 //.createParsers();
                 //Skapa uppsättning av parsningen för det objektet
 //                allTraits.add(createTraitHandler(curArea));
@@ -234,13 +244,13 @@ public class WikiHandler extends ExportImportHandler{
         }
 
     }
-    private ArrayList<MetaObject> dividePageIntoAreas(Article curArticle) {
+    private ArrayList<MetaObject> dividePageIntoAreas(String articleString) {
         ArrayList<MetaObject> allAreas = new ArrayList<MetaObject>();
-        String articleString = curArticle.getText();
-        while(articleString.equals("")){
+        while(!articleString.equals("")){
             if(MetaObject.hasArea(articleString)){
                 articleString = articleString.trim();
                 MetaObject next = DataObject.createNextMetaObject(articleString);
+                System.out.println(next.getName());
                 allAreas.add(next);
                 articleString = articleString.substring(next.getFullLength());
                 articleString = articleString.trim();
