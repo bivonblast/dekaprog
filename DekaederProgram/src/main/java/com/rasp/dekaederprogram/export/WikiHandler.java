@@ -86,7 +86,7 @@ public class WikiHandler extends ExportImportHandler{
     public DekaederCharacter readCharacter(String characterName, String characterTemplate) {
         try {
             String text;
-            if(characterTemplate.startsWith("file://C")){
+            if(characterTemplate.startsWith("file://")){
                 FileHandler fileHandler = new FileHandler(characterTemplate);
                 text = fileHandler.readCharacter(characterName, SHOWVALUE);
                 System.out.println(curTemplate);

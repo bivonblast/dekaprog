@@ -13,11 +13,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +33,7 @@ public class FileHandler extends ExportImportHandler{
     private String character;
 
     public FileHandler(){
-        super("file:///C:/Users/Martin/AppData/Roaming/DekaProg/");  //Ska vara %appdata%\DekaProg
+        super(Setup.getPath());  //Ska vara %appdata%\DekaProg
     }
 
     public FileHandler(String location){
@@ -45,9 +42,9 @@ public class FileHandler extends ExportImportHandler{
 
     @Override
     public DekaederCharacter readCharacter(String characterName) {
-        String filename = location + characterName.replaceAll(" ", "%20") + ".ser";
+        String filename = location + characterName + ".ser";
         try {
-            currentFile = new File(new URI(filename));
+            currentFile = new File(filename);
             FileInputStream fileIn = new FileInputStream(currentFile);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             Object newChar = in.readObject();
@@ -57,8 +54,6 @@ public class FileHandler extends ExportImportHandler{
         } catch (ClassNotFoundException ex) {
             System.out.println("Error in file: " + filename);
             Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,7 +62,8 @@ public class FileHandler extends ExportImportHandler{
 
     public String readCharacter(String characterName, boolean test) {
         try {
-            currentFile = new File(new URI(location + characterName.replaceAll(" ", "%20") + ".dkp"));
+            System.out.println("location = " + location + characterName + ".dkp");
+            currentFile = new File(location + characterName + ".dkp");
 //            FileInputStream fileOut = new FileInputStream(currentFile);
 //            ObjectInputStream out = new ObjectInputStream(fileOut);
 //            
@@ -79,8 +75,6 @@ public class FileHandler extends ExportImportHandler{
             }
             currentFileReader.close();
             return character;
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,15 +89,13 @@ public class FileHandler extends ExportImportHandler{
     @Override
     public boolean writeCharacter(DekaederCharacter character, String username, boolean showValue) {
         try {
-            currentFile = new File(new URI(location + character.getConceptHandler().getTrait("Namn").valueToString().replaceAll(" ", "%20") + ".ser"));
+            currentFile = new File(location + character.getConceptHandler().getTrait("Namn").valueToString() + ".ser");
             FileOutputStream fileOut = new FileOutputStream(currentFile);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(character);
             out.close();
             fileOut.close();
             return true;
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
