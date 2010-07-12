@@ -30,8 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,13 +40,13 @@ import java.util.logging.Logger;
  */
 public class PDFHandler extends ExportHandler {
     /** The source PDF. */
-    public URI source;
+    public String source;
     /** The resulting PDF. */
-    public URI result;
+    public String result;
     /** The movie poster. */
     //public URI character;
     /** Temp poster. */
-    public URI temp;
+    public String temp;
 
 
     private float skillIncrease = 0.0f;
@@ -74,19 +72,13 @@ public class PDFHandler extends ExportHandler {
 
     @Override
     public boolean writeCharacter(DekaederCharacter character, String username, boolean showValue) {
-        try {
-            this.character = character;
-            source = new URI(location + "rollf.pdf");
-            result = new URI(location + character.getConceptHandler().getTrait("Namn").valueToString().replaceAll(" ", "%20") + ".pdf");
-            temp = new URI(location + "temp.pdf");
-            this.username = username;
-            //this.character = new URI(location + "BenGrape.jpg");
-            return createFile(showValue);
-
-        } catch (URISyntaxException ex) {
-            //Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+        this.character = character;
+        source = location + "rollf.pdf";
+        result = location + character.getConceptHandler().getTrait("Namn").valueToString() + ".pdf";
+        temp = location + "temp.pdf";
+        this.username = username;
+        //this.character = new URI(location + "BenGrape.jpg");
+        return createFile(showValue);
     }
 
     private String readFile(File currentFile) throws IOException {
@@ -112,17 +104,17 @@ public class PDFHandler extends ExportHandler {
      */
     private boolean createFile(boolean showValue){
         try{
-            System.out.println("Starting creating \"" + result.getPath() + "\".");
+            System.out.println("Starting creating \"" + result + "\".");
 
-            createPdf(source.getPath(), showValue);
+            createPdf(source, showValue);
 
             // Create a reader
-            PdfReader reader = new PdfReader(temp.getPath());
+            PdfReader reader = new PdfReader(temp);
             // Create a document
             Document document = new Document(PageSize.A4);
             // Create a writer
             PdfWriter writer
-                    = PdfWriter.getInstance(document, new FileOutputStream(result.getPath()));
+                    = PdfWriter.getInstance(document, new FileOutputStream(result));
             //Start writing to the document
             document.open();
             PdfContentByte canvas = writer.getDirectContent();
@@ -132,7 +124,7 @@ public class PDFHandler extends ExportHandler {
                 canvas.addTemplate(page, 1f, 0, 0f, 1f, 0, 0);
             }
             document.close();
-            System.out.println("Finished creating \"" + result.getPath() + "\".");
+            System.out.println("Finished creating \"" + result + "\".");
             return true;
         } catch (DocumentException ex) {
             Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,9 +149,9 @@ public class PDFHandler extends ExportHandler {
         throws IOException, DocumentException {
         Document document = new Document(PageSize.A4, 30, 30, 30, 30);
         PdfWriter writer = PdfWriter.getInstance(document,
-                new FileOutputStream(temp.getPath()));
+                new FileOutputStream(temp));
         // Layer 1: Rollformulär
-        PdfReader reader = new PdfReader(source.getPath());
+        PdfReader reader = new PdfReader(source);
         document.open();
         PdfImportedPage page = writer.getImportedPage(reader, 1);
         PdfContentByte under = writer.getDirectContent();
@@ -221,7 +213,7 @@ public class PDFHandler extends ExportHandler {
         Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
         BufferedReader currentFileReader = null;
         try {
-            File conceptFile = new File(new URI(location + "rollf.cfg"));
+            File conceptFile = new File(location + "rollf.cfg");
             for (Trait curTrait : allTraits) {
                 currentFileReader = new BufferedReader(new FileReader(conceptFile));
                 String bufLine;
@@ -235,8 +227,6 @@ public class PDFHandler extends ExportHandler {
             }
             return resultingText;
         } catch (IOException ex) {
-                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (URISyntaxException ex) {
             Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -253,7 +243,7 @@ public class PDFHandler extends ExportHandler {
         Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
         BufferedReader currentFileReader = null;
         try {
-            File conceptFile = new File(new URI(location + "rollf.cfg"));
+            File conceptFile = new File(location + "rollf.cfg");
             currentFileReader = new BufferedReader(new FileReader(conceptFile));
             String bufLine, mentala = null, fysiska = null, sociala = null, mentalaV = null, fysiskaV = null, socialaV = null;
             while ((bufLine = currentFileReader.readLine()) != null) {
@@ -298,8 +288,6 @@ public class PDFHandler extends ExportHandler {
 
             return resultingText;
         } catch (IOException ex) {
-                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (URISyntaxException ex) {
             Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -316,7 +304,7 @@ public class PDFHandler extends ExportHandler {
         Vector<TextPositionInPdf> resultingText = new Vector<TextPositionInPdf>();
         BufferedReader currentFileReader = null;
         try {
-            File conceptFile = new File(new URI(location + "rollf.cfg"));
+            File conceptFile = new File(location + "rollf.cfg");
             currentFileReader = new BufferedReader(new FileReader(conceptFile));
             String bufLine, spec = null;
             while ((bufLine = currentFileReader.readLine()) != null) {
@@ -335,8 +323,6 @@ public class PDFHandler extends ExportHandler {
 
             return resultingText;
         } catch (IOException ex) {
-                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (URISyntaxException ex) {
             Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -355,7 +341,7 @@ public class PDFHandler extends ExportHandler {
             BufferedReader currentFileReader = null;
 
             try {
-                File conceptFile = new File(new URI(location + "rollf.cfg"));
+                File conceptFile = new File(location + "rollf.cfg");
                 currentFileReader = new BufferedReader(new FileReader(conceptFile));
                 String bufLine;
                 while ((bufLine = currentFileReader.readLine()) != null) {
@@ -376,8 +362,6 @@ public class PDFHandler extends ExportHandler {
 
                 currentFileReader.close();
                 return parsedText;
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(PDFHandler.class.getName()).log(Level.SEVERE, null, ex);
             } finally {

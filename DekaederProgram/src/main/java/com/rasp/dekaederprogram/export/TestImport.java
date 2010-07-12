@@ -39,7 +39,7 @@ public class TestImport {
 //            System.out.println("FELFELFELFEL!");
 //        }
         
-        ExportHandler pdfTest = new PDFHandler("file:///C:/DekaProg/");
+        ExportHandler pdfTest = new PDFHandler(Setup.getPath());
         ConceptHandler conceptHandler = new ConceptHandler();
         conceptHandler.addConceptTrait("Namn", "Levan 'Face' Darish");
         conceptHandler.addConceptTrait("Kön", "Man");
@@ -55,7 +55,7 @@ public class TestImport {
         pointHandler.addExperiencePoints(169);
         SkillHandler skillHandler = new SkillHandler();
         WikiHandler wiki = new WikiHandler("http://wiki.raspare.se");
-        FileHandler file = new FileHandler("file:///C:/DekaProg/");
+        FileHandler file = new FileHandler(Setup.getPath());
         System.out.println(file.readCharacter("mall", true));
         skillHandler.addAll(wiki.getSkillsFromString(file.readCharacter("mall", true)));
 //        skillHandler.addSkillTrait("Akrobatik", SkillType.newPhysicalSkillType(), 3);
@@ -126,7 +126,7 @@ public class TestImport {
         hookHandler.add(new HookTrait("Uppträdande", "Social, utåtriktad, lätt att prata för sig"));
         pointHandler.spendExperiencePoints(219, 0);
         DekaederCharacter test = new DekaederCharacter(conceptHandler, pointHandler, skillHandler, specialityHandler, hookHandler, new AdvantageHandler());
-        FileHandler sparaChar = new FileHandler("file:///C:/DekaProg/");
+        FileHandler sparaChar = new FileHandler(Setup.getPath());
         sparaChar.writeCharacter(test, "Myggdräpe", ExportHandler.SHOWVALUE);
         DekaederCharacter kalle = sparaChar.readCharacter("Levan 'Face' Darish");
         pdfTest.writeCharacter(kalle, "Myggdräpe", ExportHandler.SHOWVALUE);

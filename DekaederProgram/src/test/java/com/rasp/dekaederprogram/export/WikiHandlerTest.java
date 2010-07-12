@@ -70,9 +70,17 @@ public class WikiHandlerTest extends TestCase {
     public void testReadCharacter_String() {
 //        System.out.println("readCharacter");
 //        String characterName = "";
-//        WikiHandler instance = null;
-//        DekaederCharacter expResult = null;
-//        DekaederCharacter result = instance.readCharacter(characterName);
+//        boolean expResult = false;
+//        DekaederCharacter result = null;
+//        try {
+//            WikiHandler instance = new WikiHandler("http://wiki.raspare.se/");
+//            expResult = true;
+//            result = instance.readCharacter(characterName);
+//        } catch (Exception e) {
+//            fail(e.getMessage());
+//        }finally{
+//            System.out.println("Done");
+//        }
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -83,10 +91,6 @@ public class WikiHandlerTest extends TestCase {
      */
     public void testReadCharacter_String_String() {
         try {
-            System.out.println("EEEEE " + System.getProperty("file.separator"));
-            System.setProperty("file.separator", "/");
-            System.out.println("EEEEE " + System.getProperty("file.separator"));
-            System.out.println("File.separatorChar = " + File.separatorChar);
             MediaWikiBot b = new MediaWikiBot("http://wiki.raspare.se/");
             b.login("DekaProg", "tester");
             DekaederCharacter expResult = new DekaederCharacter(null, null, null, null, null, null);
@@ -94,9 +98,10 @@ public class WikiHandlerTest extends TestCase {
             //assertEquals(expResult, result);
         } catch (ActionException ex) {
             Logger.getLogger(WikiHandlerTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail(ex.getMessage());
         } catch (MalformedURLException ex) {
             Logger.getLogger(WikiHandlerTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail();
+            fail(ex.getMessage());
         }
     }
 

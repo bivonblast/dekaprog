@@ -56,7 +56,7 @@ public class PDFHandlerTest extends TestCase {
         pointHandler.addExperiencePoints(169);
         skillHandler = new SkillHandler();
         //wiki = new WikiHandler("http://wiki.raspare.se");
-        FileHandler file = new FileHandler("file:///C:/DekaProg/");
+        FileHandler file = new FileHandler(Setup.getPath());
         //System.out.println(file.readCharacter("mall", true));
         //skillHandler.addAll(wiki.getSkillsFromString(file.readCharacter("mall", true)));
         skillHandler.addSkillTrait("Akrobatik", SkillType.newPhysicalSkillType(), 3);
@@ -142,8 +142,7 @@ public class PDFHandlerTest extends TestCase {
     public void testWriteCharacter() {
 
         System.out.println("writeCharacter");
-        String filePosition = "file:///C:/DekaProg/";
-        ExportHandler pdfTest = new PDFHandler(filePosition);
+        ExportHandler pdfTest = new PDFHandler(Setup.getPath());
         boolean expResult = true;
         boolean result = pdfTest.writeCharacter(dekaederCharacter, "Testnamn", true);
         assertEquals(expResult, result);
