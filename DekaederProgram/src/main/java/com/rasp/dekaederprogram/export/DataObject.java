@@ -73,9 +73,9 @@ public class DataObject extends Object{
             }
             //If the next Area is a loop, then
             if(nextAreaIsALoop(searchString)){
-                return new LoopObject(insideArea(MetaObject.STARTIDENTIFIER, searchString),
-                        insideArea(MetaObject.STOPIDENTIFIER, searchString),
-                        insideArea("/" + MetaObject.STARTIDENTIFIER, MetaObject.STOPIDENTIFIER, searchString)
+                return new LoopObject(insideArea(Setup.STARTIDENTIFIER, searchString),
+                        insideArea(Setup.STOPIDENTIFIER, searchString),
+                        insideArea("/" + Setup.STARTIDENTIFIER, Setup.STOPIDENTIFIER, searchString)
                         );
             }else{
                 newString = searchString.substring(searchString.indexOf("{" + newName + "}")+newName.length()+2, searchString.indexOf("{/" + newName + "}")).trim();
@@ -118,7 +118,7 @@ public class DataObject extends Object{
      */
     private static boolean nextAreaIsALoop(String searchString) {
         try{
-            return getNextAreaName(searchString).equals(LoopObject.STARTIDENTIFIER);
+            return getNextAreaName(searchString).equals(Setup.STARTIDENTIFIER);
         }catch(IOException e){
             //Borde kanske lägga till mer problem här...
             return false;

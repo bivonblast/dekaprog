@@ -4,9 +4,11 @@ import com.rasp.dekaederprogram.character.DekaederCharacter;
 import com.rasp.dekaederprogram.character.data.SkillHandler;
 import com.rasp.dekaederprogram.character.data.SkillTrait;
 import com.rasp.dekaederprogram.character.data.SkillType;
+import com.rasp.dekaederprogram.character.data.Trait;
 import com.rasp.dekaederprogram.character.data.TraitHandler;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,18 +87,21 @@ public class WikiHandler extends ExportImportHandler{
 
     public DekaederCharacter readCharacter(String characterName, String characterTemplate) {
         try {
-            String text;
+            String text, template;
             if(characterTemplate.startsWith("/")){
                 System.out.println("Det är en fil och inget webbdokument");
-                FileHandler fileHandler = new FileHandler(characterTemplate);
-                text = fileHandler.readCharacter(characterTemplate, SHOWVALUE);
+                FileHandler templateHandler = new FileHandler(characterTemplate);
+                FileHandler characterHandler = new FileHandler(characterName);
+                template = templateHandler.readCharacter(characterTemplate, SHOWVALUE);
+                text = characterHandler.readCharacter(characterName, SHOWVALUE);
             }else{
                 curTemplate = wikiConnection.readContent(characterTemplate);
                 curArticle = wikiConnection.readContent(characterName);
+                template = curTemplate.getText();
                 text = curArticle.getText();
             }
 
-            ArrayList<MetaObject> allAreas = dividePageIntoAreas(text);
+            ArrayList<MetaObject> allAreas = dividePageIntoAreas(template);
 //            ArrayList<TraitHandler> allTraits = new ArrayList<TraitHandler>();
             System.out.println("Redo att skriva ut alla " + allAreas.size()  + " objekt");
             for(MetaObject curArea : allAreas){
@@ -105,6 +110,11 @@ public class WikiHandler extends ExportImportHandler{
                 //.createParsers();
                 //Skapa uppsättning av parsningen för det objektet
 //                allTraits.add(createTraitHandler(curArea));
+            }
+            ArrayList<Trait> allCollectedTraits = new ArrayList<Trait>();
+            for(MetaObject curArea : allAreas){
+                //allCollectedTraits.addAll(addTraitsFromArea(curArea, text));
+                //gå igenom texten och se om du kan hitta första tillfället som det dyker upp.
             }
             //Starta parsningen av den riktiga artikeln efter mallen vi just skapat i arraylisten
             //skapa en tom dekaedercharacter och börja sen fylla den med saker
@@ -226,6 +236,17 @@ public class WikiHandler extends ExportImportHandler{
         
 
         return null;
+    }
+
+    private ArrayList<Trait> addTraitsFromArea(MetaObject curArea, String text) {
+        ArrayList<Trait> allTraitsInArea = new ArrayList<Trait>();
+        try{
+            text = text.substring(text.indexOf(curArea.getHeadLine())+curArea.getHeadLine().length());
+        }catch(NullPointerException npe){
+            System.out.println("Kunde inte hitta " + curArea.getHeadLine() + " i texten");
+        }
+
+        return allTraitsInArea;
     }
 
 //    private String stripName(String curStringArea, String nextAreaName) {

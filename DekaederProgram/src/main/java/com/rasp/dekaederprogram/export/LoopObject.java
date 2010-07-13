@@ -55,7 +55,7 @@ class LoopObject<H extends TraitHandler> extends MetaObject{
 
    @Override
    public void printObjects(String parser){
-        System.out.println(parser + getName());
+        System.out.println(parser + getName() + "  " + chars);
         if(!objectsInLoop.isEmpty()){
             for(Parser curObject : objectsInLoop){
                 if(!curObject.isParserBool()){

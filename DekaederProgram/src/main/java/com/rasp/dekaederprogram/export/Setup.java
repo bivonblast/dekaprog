@@ -15,6 +15,12 @@ import java.io.File;
 public class Setup {
     private static String path = "";
     private static String applicationName = "DekaProg";
+    public static String STARTSLINGA = "{startSlinga}";
+    public static String STARTIDENTIFIER = "startSlinga";
+    public static String STARTSLINGAEND = "{/startSlinga}";
+    public static String STOPSLINGA = "{slutSlinga}";
+    public static String STOPIDENTIFIER = "slutSlinga";
+    public static String STOPSLINGAEND = "{/slutSlinga}";
 
     public static String getPath(){
         if(path.equals("")){ //Do this the first time the program calls getPath
