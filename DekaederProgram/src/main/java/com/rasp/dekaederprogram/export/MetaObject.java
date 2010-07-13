@@ -21,12 +21,7 @@ public class MetaObject extends DataObject{
     private int value;
     private boolean hasAValue = false;
     private TraitHandler trait;
-    public static String STARTSLINGA = "{startSlinga}";
-    public static String STARTIDENTIFIER = "startSlinga";
-    public static String STARTSLINGAEND = "{/startSlinga}";
-    public static String STOPSLINGA = "{slutSlinga}";
-    public static String STOPIDENTIFIER = "slutSlinga";
-    public static String STOPSLINGAEND = "{/slutSlinga}";
+    
 
     protected MetaObject(){
     }
@@ -96,8 +91,14 @@ public class MetaObject extends DataObject{
         createParser();
     }
 
+    public String getHeadLine() {
+        return headLine;
+    }
+
+    
+
     public void printObjects(String parser){
-        System.out.println(parser + getName());
+        System.out.println(parser + getName() + "  " + chars);
         if(!allObjects.isEmpty()){
             for(MetaObject curObject : allObjects){
                 curObject.printObjects(parser + " ");
@@ -123,12 +124,12 @@ public class MetaObject extends DataObject{
         tmpChars = tmpChars.substring(tmpChars.indexOf("{"));
         while(!tmpChars.equals("")){
             tmpChars = tmpChars.trim();
-            if(tmpChars.indexOf(STARTSLINGA) >= 0){
-                String startSlinga = tmpChars.substring(tmpChars.indexOf(STARTSLINGA)+STARTSLINGA.length(), tmpChars.indexOf(STARTSLINGAEND));
-                String stopSlinga = tmpChars.substring(tmpChars.indexOf(STOPSLINGA)+STOPSLINGA.length(), tmpChars.indexOf(STOPSLINGAEND));
-                String insideLoop = tmpChars.substring(tmpChars.indexOf(STARTSLINGAEND)+STARTSLINGAEND.length(), tmpChars.indexOf(STOPSLINGA));
+            if(tmpChars.indexOf(Setup.STARTSLINGA) >= 0){
+                String startSlinga = tmpChars.substring(tmpChars.indexOf(Setup.STARTSLINGA)+Setup.STARTSLINGA.length(), tmpChars.indexOf(Setup.STARTSLINGAEND));
+                String stopSlinga = tmpChars.substring(tmpChars.indexOf(Setup.STOPSLINGA)+Setup.STOPSLINGA.length(), tmpChars.indexOf(Setup.STOPSLINGAEND));
+                String insideLoop = tmpChars.substring(tmpChars.indexOf(Setup.STARTSLINGAEND)+Setup.STARTSLINGAEND.length(), tmpChars.indexOf(Setup.STOPSLINGA));
                 LoopObject addSlinga = new LoopObject(startSlinga, stopSlinga, insideLoop);
-                tmpChars = tmpChars.substring(tmpChars.indexOf(STOPSLINGAEND) + STOPSLINGAEND.length());
+                tmpChars = tmpChars.substring(tmpChars.indexOf(Setup.STOPSLINGAEND) + Setup.STOPSLINGAEND.length());
                 allObjects.add(addSlinga);
 
             }else{

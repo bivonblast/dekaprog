@@ -6,9 +6,16 @@ import com.rasp.dekaederprogram.character.data.SkillHandler;
 import com.rasp.dekaederprogram.character.data.SpecialityHandler;
 import com.rasp.dekaederprogram.character.data.ConceptHandler;
 import com.rasp.dekaederprogram.character.data.AdvantageHandler;
+import com.rasp.dekaederprogram.character.data.AdvantageTrait;
+import com.rasp.dekaederprogram.character.data.ConceptTrait;
+import com.rasp.dekaederprogram.character.data.HookTrait;
+import com.rasp.dekaederprogram.character.data.PointTrait;
+import com.rasp.dekaederprogram.character.data.SkillTrait;
+import com.rasp.dekaederprogram.character.data.SpecialityTrait;
 import com.rasp.dekaederprogram.character.data.Trait;
 import com.rasp.dekaederprogram.character.data.TraitHandler;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class DekaederCharacter implements Serializable {
 	//variabler
@@ -83,5 +90,22 @@ public class DekaederCharacter implements Serializable {
         public AdvantageHandler getAdvantageHandler() {
             if (advantageIndex == -1) return null;
             return (AdvantageHandler)(traitHandlers[advantageIndex]);
+        }
+
+        public void addTraits(ArrayList<Trait> allTraits){
+            for(Trait curTrait : allTraits){
+                if (curTrait instanceof AdvantageTrait && advantageIndex >= 0)
+                    ((AdvantageHandler)traitHandlers[advantageIndex]).add((AdvantageTrait)curTrait);
+                else if (curTrait instanceof ConceptTrait && conceptIndex >= 0)
+                    ((ConceptHandler)traitHandlers[conceptIndex]).add((ConceptTrait)curTrait);
+                else if (curTrait instanceof HookTrait && hookIndex >= 0)
+                    ((HookHandler)traitHandlers[hookIndex]).add((HookTrait)curTrait);
+                else if (curTrait instanceof PointTrait && pointIndex >= 0)
+                    ((PointHandler)traitHandlers[pointIndex]).add((PointTrait)curTrait);
+                else if (curTrait instanceof SkillTrait && skillIndex >= 0)
+                    ((SkillHandler)traitHandlers[skillIndex]).add((SkillTrait)curTrait);
+                else if (curTrait instanceof SpecialityTrait && specialityIndex >= 0)
+                    ((SpecialityHandler)traitHandlers[specialityIndex]).add((SpecialityTrait)curTrait);
+            }
         }
 }
