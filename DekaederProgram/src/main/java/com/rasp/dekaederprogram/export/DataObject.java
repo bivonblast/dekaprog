@@ -21,6 +21,9 @@ public class DataObject extends Object{
     public final static int TYPE_END_LOOP = ++i;
     public final static int TYPE_ABILITY = ++i;
 
+    protected DataObject() {
+    }
+
     public DataObject(String chars, String name) {
         this.chars = chars;
         this.name = name;
@@ -54,7 +57,7 @@ public class DataObject extends Object{
     }
 
     public int getFullLength() {
-        return name.length()*2+5+chars.length();
+        return name.length()*2+6+chars.length();
     }
 
 
@@ -70,16 +73,16 @@ public class DataObject extends Object{
             }
             //If the next Area is a loop, then
             if(nextAreaIsALoop(searchString)){
-                return new LoopObject(insideArea(LoopObject.STARTIDENTIFIER, searchString),
-                        insideArea(LoopObject.STOPIDENTIFIER, searchString),
-                        insideArea("/" + LoopObject.STARTIDENTIFIER, LoopObject.STOPIDENTIFIER, searchString)
+                return new LoopObject(insideArea(MetaObject.STARTIDENTIFIER, searchString),
+                        insideArea(MetaObject.STOPIDENTIFIER, searchString),
+                        insideArea("/" + MetaObject.STARTIDENTIFIER, MetaObject.STOPIDENTIFIER, searchString)
                         );
             }else{
-                newString = searchString.substring(searchString.indexOf("{" + newName + "}")+newName.length()+2, searchString.indexOf("{/" + newName + "}"));
+                newString = searchString.substring(searchString.indexOf("{" + newName + "}")+newName.length()+2, searchString.indexOf("{/" + newName + "}")).trim();
             }
         }
         //Borde kolla om det inte blir något objekt.
-        return new MetaObject(newName, newString);
+        return new MetaObject(newString, newName);
     }
 
 
