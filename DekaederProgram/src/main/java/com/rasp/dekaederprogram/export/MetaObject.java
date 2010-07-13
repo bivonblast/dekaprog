@@ -17,14 +17,19 @@ public class MetaObject extends DataObject{
     private String preText;
     private String postText;
     private String headLine;
-    private ArrayList<DataObject> allObjects;
+    protected ArrayList<MetaObject> allObjects;
     private int value;
     private boolean hasAValue = false;
     private TraitHandler trait;
-    public static String STARTSLINGA = "{StartSlinga}";
-    public static String STARTSLINGAEND = "{/StartSlinga}";
-    public static String STOPSLINGA = "{StopSlinga}";
-    public static String STOPSLINGAEND = "{/StopSlinga}";
+    public static String STARTSLINGA = "{startSlinga}";
+    public static String STARTIDENTIFIER = "startSlinga";
+    public static String STARTSLINGAEND = "{/startSlinga}";
+    public static String STOPSLINGA = "{slutSlinga}";
+    public static String STOPIDENTIFIER = "slutSlinga";
+    public static String STOPSLINGAEND = "{/slutSlinga}";
+
+    protected MetaObject(){
+    }
 
     public MetaObject(String chars, String name) {
         super(chars, name);
@@ -87,7 +92,17 @@ public class MetaObject extends DataObject{
 
     private void init() {
 //        trait = decideTrait();
+        allObjects = new ArrayList<MetaObject>();
         createParser();
+    }
+
+    public void printObjects(String parser){
+        System.out.println(parser + getName());
+        if(!allObjects.isEmpty()){
+            for(MetaObject curObject : allObjects){
+                curObject.printObjects(parser + " ");
+            }
+        }
     }
 
 //    private TraitHandler decideTrait(){
@@ -104,17 +119,18 @@ public class MetaObject extends DataObject{
     private void createParser() {
         String tmpChars = chars;
         String tmpPart;
-        headLine = chars.substring(0, chars.indexOf("{")).trim();
+        headLine = tmpChars.substring(0, chars.indexOf("{")).trim();
         tmpChars = tmpChars.substring(tmpChars.indexOf("{"));
         while(!tmpChars.equals("")){
             tmpChars = tmpChars.trim();
-            if(chars.indexOf("{startSlinga}") >= 0){
-                String startSlinga = chars.substring(chars.indexOf(STARTSLINGA)+STARTSLINGA.length(), chars.indexOf(STARTSLINGAEND));
-                String stopSlinga = chars.substring(chars.indexOf(STOPSLINGA)+STOPSLINGA.length(), chars.indexOf(STOPSLINGAEND));
-                String insideLoop = chars.substring(chars.indexOf(STARTSLINGAEND)+STARTSLINGAEND.length(), chars.indexOf(STOPSLINGA));
+            if(tmpChars.indexOf(STARTSLINGA) >= 0){
+                String startSlinga = tmpChars.substring(tmpChars.indexOf(STARTSLINGA)+STARTSLINGA.length(), tmpChars.indexOf(STARTSLINGAEND));
+                String stopSlinga = tmpChars.substring(tmpChars.indexOf(STOPSLINGA)+STOPSLINGA.length(), tmpChars.indexOf(STOPSLINGAEND));
+                String insideLoop = tmpChars.substring(tmpChars.indexOf(STARTSLINGAEND)+STARTSLINGAEND.length(), tmpChars.indexOf(STOPSLINGA));
                 LoopObject addSlinga = new LoopObject(startSlinga, stopSlinga, insideLoop);
-                //Skapa slinga
-                //Red ut begreppen med hur man läser av en färdighet i en slinga.
+                tmpChars = tmpChars.substring(tmpChars.indexOf(STOPSLINGAEND) + STOPSLINGAEND.length());
+                allObjects.add(addSlinga);
+
             }else{
                 MetaObject newObject = createNextMetaObject(tmpChars);
                 allObjects.add(newObject);
@@ -123,9 +139,10 @@ public class MetaObject extends DataObject{
 
             tmpChars = tmpChars.trim();
         }
-        tmpChars = tmpChars.trim();
-        tmpChars = tmpChars.substring(getBeginSearchNameLength());
-        tmpChars = tmpChars.trim();
+        //Can't remember why I did this... ???
+//        tmpChars = tmpChars.trim();
+//        tmpChars = tmpChars.substring(getBeginSearchNameLength());
+//        tmpChars = tmpChars.trim();
         //tmpPart = tmpChars.substring(type)
     }
 }

@@ -31,6 +31,7 @@ public class FileHandler extends ExportImportHandler{
     private BufferedReader currentFileReader = null;
     private BufferedWriter currentFileWriter;
     private String character;
+    private String settings;
 
     public FileHandler(){
         super(Setup.getPath());  //Ska vara %appdata%\DekaProg
@@ -62,18 +63,20 @@ public class FileHandler extends ExportImportHandler{
 
     public String readCharacter(String characterName, boolean test) {
         try {
-            System.out.println("location = " + location + characterName + ".dkp");
-            currentFile = new File(location + characterName + ".dkp");
+            System.out.println(characterName);
+            StringBuilder buildCharacter = new StringBuilder();
+            currentFile = new File(characterName);
 //            FileInputStream fileOut = new FileInputStream(currentFile);
 //            ObjectInputStream out = new ObjectInputStream(fileOut);
 //            
             currentFileReader = new BufferedReader(new FileReader(currentFile));
-            character = currentFileReader.readLine();
+            buildCharacter.append(currentFileReader.readLine());
             String tmpLine;
             while (( tmpLine = currentFileReader.readLine()) != null) {
-                character = character + "\n" + tmpLine;
+                buildCharacter.append("\n").append(tmpLine);
             }
             currentFileReader.close();
+            character = buildCharacter.toString();
             return character;
         } catch (IOException ex) {
             Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,7 +86,26 @@ public class FileHandler extends ExportImportHandler{
 
     @Override
     public String readSettings(String campaignName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            System.out.println(campaignName);
+            StringBuilder buildSettings = new StringBuilder();
+            currentFile = new File(campaignName);
+//            FileInputStream fileOut = new FileInputStream(currentFile);
+//            ObjectInputStream out = new ObjectInputStream(fileOut);
+//
+            currentFileReader = new BufferedReader(new FileReader(currentFile));
+            buildSettings.append(currentFileReader.readLine());
+            String tmpLine;
+            while (( tmpLine = currentFileReader.readLine()) != null) {
+                buildSettings.append("\n").append(tmpLine);
+            }
+            currentFileReader.close();
+            settings = buildSettings.toString();
+            return settings;
+        } catch (IOException ex) {
+            Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override

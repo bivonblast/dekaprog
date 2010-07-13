@@ -86,10 +86,10 @@ public class WikiHandler extends ExportImportHandler{
     public DekaederCharacter readCharacter(String characterName, String characterTemplate) {
         try {
             String text;
-            if(characterTemplate.startsWith("file://")){
+            if(characterTemplate.startsWith("/")){
+                System.out.println("Det är en fil och inget webbdokument");
                 FileHandler fileHandler = new FileHandler(characterTemplate);
-                text = fileHandler.readCharacter(characterName, SHOWVALUE);
-                System.out.println(curTemplate);
+                text = fileHandler.readCharacter(characterTemplate, SHOWVALUE);
             }else{
                 curTemplate = wikiConnection.readContent(characterTemplate);
                 curArticle = wikiConnection.readContent(characterName);
@@ -98,9 +98,10 @@ public class WikiHandler extends ExportImportHandler{
 
             ArrayList<MetaObject> allAreas = dividePageIntoAreas(text);
 //            ArrayList<TraitHandler> allTraits = new ArrayList<TraitHandler>();
-            System.out.println("Redo att skriva ut alla objekt");
+            System.out.println("Redo att skriva ut alla " + allAreas.size()  + " objekt");
             for(MetaObject curArea : allAreas){
-                System.out.println(curArea.getName());
+                curArea.printObjects("");
+                //System.out.println(curArea.getName());
                 //.createParsers();
                 //Skapa uppsättning av parsningen för det objektet
 //                allTraits.add(createTraitHandler(curArea));
@@ -117,6 +118,8 @@ public class WikiHandler extends ExportImportHandler{
         }
         return null;
     }
+
+
 
     @Override
     public boolean writeCharacter(DekaederCharacter character, String username, boolean showValue) {
@@ -252,10 +255,9 @@ public class WikiHandler extends ExportImportHandler{
                 MetaObject next = DataObject.createNextMetaObject(articleString);
                 System.out.println(next.getName());
                 allAreas.add(next);
-                articleString = articleString.substring(next.getFullLength());
-                articleString = articleString.trim();
+                articleString = articleString.substring(next.getFullLength()).trim();
             }else{
-                allAreas.add(new MetaObject("Övrigt", articleString));
+                allAreas.add(new MetaObject(articleString, "Övrigt"));
                 articleString = "";
             }
         }

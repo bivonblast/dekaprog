@@ -19,19 +19,19 @@ import java.util.ArrayList;
  * @author Martin Andersson
  */
 class LoopObject<H extends TraitHandler> extends MetaObject{
-    public static String STARTIDENTIFIER = "startSlinga";
-    public static String STOPIDENTIFIER = "stopSlinga";
     private String startLoop;
     private String stopLoop;
     private String insideLoop;
     private ArrayList<Parser> objectsInLoop;
     
     public LoopObject(String startLoop, String stopLoop, String insideLoop) {
-        super(insideLoop, "Loop");
+        this.name = "Loop";
+        this.chars = insideLoop;
         this.startLoop = startLoop;
         this.stopLoop = stopLoop;
         this.insideLoop = insideLoop;
         objectsInLoop = new ArrayList<Parser>();
+        allObjects = new ArrayList<MetaObject>();
         init();
     }
 
@@ -39,7 +39,7 @@ class LoopObject<H extends TraitHandler> extends MetaObject{
         //Get all Objects inside loop
         String tmpLoop = insideLoop;
         String prevParser, nextValue;
-        while(!insideLoop.trim().equals("")){
+        while(!tmpLoop.trim().equals("")){
             if(tmpLoop.contains("{") && tmpLoop.contains("}")){
                 prevParser = tmpLoop.substring(0, tmpLoop.indexOf("{"));
                 nextValue = tmpLoop.substring(tmpLoop.indexOf("{")+1, tmpLoop.indexOf("}"));
@@ -49,6 +49,18 @@ class LoopObject<H extends TraitHandler> extends MetaObject{
             }else{
                 objectsInLoop.add(new Parser(tmpLoop, true));
                 tmpLoop = "";
+            }
+        }
+    }
+
+   @Override
+   public void printObjects(String parser){
+        System.out.println(parser + getName());
+        if(!objectsInLoop.isEmpty()){
+            for(Parser curObject : objectsInLoop){
+                if(!curObject.isParserBool()){
+                    System.out.println(parser + " " + curObject.getParserName());
+                }
             }
         }
     }

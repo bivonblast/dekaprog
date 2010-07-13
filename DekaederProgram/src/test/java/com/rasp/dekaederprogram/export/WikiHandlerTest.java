@@ -6,15 +6,7 @@
 package com.rasp.dekaederprogram.export;
 
 import com.rasp.dekaederprogram.character.DekaederCharacter;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import junit.framework.TestCase;
-import net.sourceforge.jwbf.JWBF;
-import net.sourceforge.jwbf.core.actions.util.ActionException;
-import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
 
 /**
  *
@@ -90,19 +82,12 @@ public class WikiHandlerTest extends TestCase {
      * Test of readCharacter method, of class WikiHandler.
      */
     public void testReadCharacter_String_String() {
-        try {
-            MediaWikiBot b = new MediaWikiBot("http://wiki.raspare.se/");
-            b.login("DekaProg", "tester");
+            String location = Setup.getPath();
+            WikiHandler instance = new WikiHandler("http://wiki.raspare.se/");
             DekaederCharacter expResult = new DekaederCharacter(null, null, null, null, null, null);
-            //DekaederCharacter result = instance.readCharacter(characterName, "");
+            DekaederCharacter result = instance.readCharacter(location + "levan.txt", location + "Levan \'Face\' Darish.map");
+            //assertNotSame(expResult, result);
             //assertEquals(expResult, result);
-        } catch (ActionException ex) {
-            Logger.getLogger(WikiHandlerTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail(ex.getMessage());
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(WikiHandlerTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail(ex.getMessage());
-        }
     }
 
     /**
