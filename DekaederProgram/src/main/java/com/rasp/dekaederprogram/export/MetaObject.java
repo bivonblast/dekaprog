@@ -9,8 +9,11 @@ import com.rasp.dekaederprogram.character.data.TraitHandler;
 import java.util.ArrayList;
 
 /**
+ * These objects contains information about the Objects found on the wiki.
+ * Their specific goal is to contain data stored on the wiki but converted to the
+ * DekaederProgram format.
  *
- * @author MARTIN
+ * @author Martin Andersson
  */
 public class MetaObject extends DataObject{
     private String otherName;
@@ -22,22 +25,44 @@ public class MetaObject extends DataObject{
     private boolean hasAValue = false;
     private TraitHandler trait;
     
-
-    protected MetaObject(){
-    }
-
+    /*
+     * Constructor for creating a standard MetaObject
+     * with a name and a value containing everything parsed from the wiki.
+     *
+     * @param chars All characters inside the MetaObject
+     * @param name Name of the object
+     */
     public MetaObject(String chars, String name) {
         super(chars, name);
 //        this.otherName = name;
         init();
     }
 
+
+    /*
+     * Constructor for creating a standard MetaObject
+     * with a name and a value containing everything parsed from the wiki.
+     *
+     * @param chars All characters inside the MetaObject
+     * @param name Name of the object
+     * @param otherName another name for the object
+     */
     public MetaObject(String otherName, String chars, String name) {
         super(chars, name);
         this.otherName = otherName;
         init();
     }
 
+
+    /*
+     * Constructor for creating a standard MetaObject
+     * with a name and a value containing everything parsed from the wiki.
+     *
+     * @param chars All characters inside the MetaObject
+     * @param name Name of the object
+     * @param otherName another name for the object
+     * @param value Value of the object
+     */
     public MetaObject(String otherName, String chars, String name, int value) {
         super(chars, name);
         this.otherName = otherName;
@@ -45,6 +70,16 @@ public class MetaObject extends DataObject{
         init();
     }
     
+    /*
+     * Constructor for creating a standard MetaObject
+     * with a name and a value containing everything parsed from the wiki.
+     *
+     * @param chars All characters inside the MetaObject
+     * @param name Name of the object
+     * @param otherName another name for the object
+     * @param preText Text defined before the object
+     * @param postText Text after the object.
+     */
     public MetaObject(String otherName, String chars, String name, String preText, String postText) {
         super(chars, name);
         this.otherName = otherName;
@@ -53,6 +88,17 @@ public class MetaObject extends DataObject{
         init();
     }
 
+    /*
+     * Constructor for creating a standard MetaObject
+     * with a name and a value containing everything parsed from the wiki.
+     *
+     * @param chars All characters inside the MetaObject
+     * @param name Name of the object
+     * @param otherName another name for the object
+     * @param value Value of the object
+     * @param preText Text defined before the object
+     * @param postText Text after the object.
+     */
     public MetaObject(String otherName, String chars, String name, String preText, String postText, int value) {
         super(chars, name);
         this.otherName = otherName;
@@ -63,10 +109,18 @@ public class MetaObject extends DataObject{
         init();
     }
 
+    /*
+     * Check if the object contains a value.
+     * @return true if the value is set.
+     */
     public boolean hasValue(){
         return hasAValue;
     }
 
+    /*
+     * Creates a Trait from the MetaObject
+     * @return The created Trait.
+     */
     public Trait createTrait(){
         
         switch(TraitType.getTrait(getName())){
@@ -85,6 +139,9 @@ public class MetaObject extends DataObject{
         }
     }
 
+    /*
+     * 
+     */
     private void init() {
 //        trait = decideTrait();
         allObjects = new ArrayList<MetaObject>();

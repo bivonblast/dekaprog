@@ -68,17 +68,18 @@ public class WikiHandler extends ExportImportHandler{
      * @return Returns true if login was successful, false otherwise.
      */
     public boolean connect(String username, String password) {
-        try {
-            wikiConnection = new MediaWikiBot("http://wiki.raspare.se/"); //new URL(location));
-            wikiConnection.login(username, password);
-            return true;
-
-        } catch (ActionException ex) {
-            Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
+        return true;
+//        try {
+//            wikiConnection = new MediaWikiBot("http://wiki.raspare.se/"); //new URL(location));
+//            wikiConnection.login(username, password);
+//            return true;
+//
+//        } catch (ActionException ex) {
+//            Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(WikiHandler.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return false;
     }
     @Override
     public DekaederCharacter readCharacter(String characterName){
@@ -88,7 +89,7 @@ public class WikiHandler extends ExportImportHandler{
     public DekaederCharacter readCharacter(String characterName, String characterTemplate) {
         try {
             String text, template;
-            if(characterTemplate.startsWith("/")){
+            if(characterTemplate.contains("DekaProg")){
                 System.out.println("Det är en fil och inget webbdokument");
                 FileHandler templateHandler = new FileHandler(characterTemplate);
                 FileHandler characterHandler = new FileHandler(characterName);
@@ -276,7 +277,7 @@ public class WikiHandler extends ExportImportHandler{
                 MetaObject next = DataObject.createNextMetaObject(articleString);
                 System.out.println(next.getName());
                 allAreas.add(next);
-                articleString = articleString.substring(next.getFullLength()).trim();
+                articleString = articleString.substring(next.getFullLength()-1).trim();
             }else{
                 allAreas.add(new MetaObject(articleString, "Övrigt"));
                 articleString = "";

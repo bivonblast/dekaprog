@@ -85,7 +85,7 @@ public class WikiHandlerTest extends TestCase {
             String location = Setup.getPath();
             WikiHandler instance = new WikiHandler("http://wiki.raspare.se/");
             DekaederCharacter expResult = new DekaederCharacter(null, null, null, null, null, null);
-            DekaederCharacter result = instance.readCharacter(location + "levan.txt", location + "Levan \'Face\' Darish.map");
+            DekaederCharacter result = instance.readCharacter(location + "rasp.dkp", location + "rasp_MALL.map");
             //assertNotSame(expResult, result);
             //assertEquals(expResult, result);
     }

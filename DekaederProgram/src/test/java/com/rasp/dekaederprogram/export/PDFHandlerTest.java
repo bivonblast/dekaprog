@@ -38,7 +38,6 @@ public class PDFHandlerTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        return; /*
         conceptHandler = new ConceptHandler();
         conceptHandler.addConceptTrait("Namn", "Levan 'Face' Darish");
         conceptHandler.addConceptTrait("Kön", "Man");
@@ -54,7 +53,7 @@ public class PDFHandlerTest extends TestCase {
         pointHandler.addExperiencePoints(169);
         skillHandler = new SkillHandler();
         //wiki = new WikiHandler("http://wiki.raspare.se");
-        FileHandler file = new FileHandler(Setup.getPath());
+//        FileHandler file = new FileHandler(Setup.getPath());
         //System.out.println(file.readCharacter("mall", true));
         //skillHandler.addAll(wiki.getSkillsFromString(file.readCharacter("mall", true)));
         skillHandler.addSkillTrait("Akrobatik", SkillType.newPhysicalSkillType(), 3);
@@ -125,7 +124,7 @@ public class PDFHandlerTest extends TestCase {
         hookHandler.add(new HookTrait("Uppträdande", "Social, utåtriktad, lätt att prata för sig"));
         pointHandler.spendExperiencePoints(219, 0);
         dekaederCharacter = new DekaederCharacter(conceptHandler, pointHandler, skillHandler, specialityHandler, hookHandler, new AdvantageHandler());
-        */
+        
        
     }
 
@@ -138,15 +137,11 @@ public class PDFHandlerTest extends TestCase {
      * Test of writeCharacter method, of class PDFHandler.
      */
     public void testWriteCharacter() {
-
-//        System.out.println("writeCharacter");
-//        ExportHandler pdfTest = new PDFHandler(Setup.getPath());
-//        boolean expResult = true;
-//        boolean result = pdfTest.writeCharacter(dekaederCharacter, "Testnamn", true);
-//        assertEquals(expResult, result);
-//        result = pdfTest.writeCharacter(dekaederCharacter, "Testnamn", false);
-//        assertEquals(expResult, result);
-
+        System.out.println("writeCharacter");
+        ExportHandler pdfTest = new PDFHandler(Setup.getPath());
+        boolean expResult = true;
+        boolean result = pdfTest.writeCharacter(dekaederCharacter, "Testnamn", true);
+        assertEquals(expResult, result);
     }
 
     /**
