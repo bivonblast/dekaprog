@@ -36,24 +36,28 @@ public class DataObject extends Object{
         this.chars = allValues.substring(getBeginSearchNameLength(), chars.length()-getEndSearchNameLength()+1);
     }
 
-    public String getBeginSearchName(){
+    public final String getBeginSearchName(){
         return "{" + name + "}";
     }
 
-    public int getBeginSearchNameLength(){
+    public final int getBeginSearchNameLength(){
         return name.length()+2;
     }
 
-    public String getEndSearchName(){
+    public final String getEndSearchName(){
         return "{/" + name + "}";
     }
 
-    public int getEndSearchNameLength(){
+    public final int getEndSearchNameLength(){
         return name.length()+3;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getChars() {
+        return chars;
     }
 
     public int getFullLength() {
