@@ -24,7 +24,11 @@ public class MetaObject extends DataObject{
     private int value;
     private boolean hasAValue = false;
     private TraitHandler trait;
-    
+
+    public MetaObject(){
+        super();
+    }
+
     /*
      * Constructor for creating a standard MetaObject
      * with a name and a value containing everything parsed from the wiki.
@@ -35,6 +39,8 @@ public class MetaObject extends DataObject{
     public MetaObject(String chars, String name) {
         super(chars, name);
 //        this.otherName = name;
+        this.preText = chars.substring(0, chars.indexOf(getBeginSearchName()));
+        this.postText = chars.substring(chars.indexOf(getEndSearchName())+getEndSearchNameLength());
         init();
     }
 
@@ -50,6 +56,8 @@ public class MetaObject extends DataObject{
     public MetaObject(String otherName, String chars, String name) {
         super(chars, name);
         this.otherName = otherName;
+        this.preText = chars.substring(0, chars.indexOf(getBeginSearchName()));
+        this.postText = chars.substring(chars.indexOf(getEndSearchName())+getEndSearchNameLength());
         init();
     }
 
@@ -67,6 +75,8 @@ public class MetaObject extends DataObject{
         super(chars, name);
         this.otherName = otherName;
         this.value = value;
+        this.preText = chars.substring(0, chars.indexOf(getBeginSearchName()));
+        this.postText = chars.substring(chars.indexOf(getEndSearchName())+getEndSearchNameLength());
         init();
     }
     
@@ -176,8 +186,7 @@ public class MetaObject extends DataObject{
 
     private void createParser() {
         String tmpChars = chars;
-        String tmpPart;
-        headLine = tmpChars.substring(0, chars.indexOf("{")).trim();
+        headLine = tmpChars.substring(0, tmpChars.indexOf("{")).trim();
         tmpChars = tmpChars.substring(tmpChars.indexOf("{"));
         while(!tmpChars.equals("")){
             tmpChars = tmpChars.trim();
@@ -202,5 +211,32 @@ public class MetaObject extends DataObject{
 //        tmpChars = tmpChars.substring(getBeginSearchNameLength());
 //        tmpChars = tmpChars.trim();
         //tmpPart = tmpChars.substring(type)
+    }
+
+    /**
+     * Returns the last object, the ending symbolics.
+     *
+     * @return String of the last object.
+     */
+    public String getLastObjectString() {
+        if(allObjects.size() > 1){
+            return allObjects.get(allObjects.size()-1).getLastObjectString();
+        }else if(allObjects.size() == 1){
+            return postText;
+        }else{
+            return chars;
+        }
+    }
+
+    public ArrayList<Trait> getTraitsFromString(String allAreaString) {
+        String tmpString = allAreaString;
+        ArrayList<Trait> TraitsFromString = new ArrayList<Trait>();
+        for(MetaObject curObject : allObjects){
+            if(curObject instanceof LoopObject){
+
+            }
+        }
+        //get all traits from all objects recursively.
+        return null;
     }
 }

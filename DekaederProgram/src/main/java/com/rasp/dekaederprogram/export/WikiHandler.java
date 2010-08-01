@@ -114,6 +114,9 @@ public class WikiHandler extends ExportImportHandler{
             }
             ArrayList<Trait> allCollectedTraits = new ArrayList<Trait>();
             for(MetaObject curArea : allAreas){
+                System.out.println(curArea.getLastObjectString());
+                String allAreaString = text.substring(text.indexOf(curArea.getLastObjectString()));
+                allCollectedTraits.addAll(curArea.getTraitsFromString(allAreaString));
                 //allCollectedTraits.addAll(addTraitsFromArea(curArea, text));
                 //gå igenom texten och se om du kan hitta första tillfället som det dyker upp.
             }
