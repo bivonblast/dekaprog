@@ -1,0 +1,4 @@
+# Här kan vi ha lite allmännyttig information om hur arbetet är upplagt oss emellan.
+
+Martin bygger Integrationen mot rasps wiki.<br>
+Jonas bygger modellen.<br>
